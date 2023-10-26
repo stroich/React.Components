@@ -1,11 +1,14 @@
 import { ChangeEvent, Component } from 'react';
 import './search.css';
 
+interface SearchProps {
+  setArrValue: () => void;
+}
 interface SearchState {
   searchValue: string;
 }
-class Search extends Component<NonNullable<unknown>, SearchState> {
-  constructor(props: NonNullable<unknown>) {
+class Search extends Component<SearchProps, SearchState> {
+  constructor(props: SearchProps) {
     super(props);
     this.state = {
       searchValue: '',
@@ -27,11 +30,13 @@ class Search extends Component<NonNullable<unknown>, SearchState> {
   clickButton = () => {
     const { searchValue } = this.state;
     localStorage.setItem('searchValue', searchValue);
+    this.props.setArrValue();
   };
 
   render() {
     return (
       <header>
+        <h1>Works of art from the Art Institute of Chicago</h1>
         <div className={'search'}>
           <input
             className="search-input"

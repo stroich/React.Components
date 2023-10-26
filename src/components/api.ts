@@ -31,7 +31,7 @@ async function fetchApi(apiUrl: string) {
 }
 
 export async function getArrArtWork(searchValue: string) {
-  let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true`;
+  let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&&page=1&limit=6`;
   const response = await fetchApi(apiUrl);
   const arrArtWork = returnIdAndTitle(response.data);
 

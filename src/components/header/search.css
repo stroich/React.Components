@@ -1,5 +1,7 @@
 :root {
-  --colorButton: #6c6c6c;
+  --colorButton: rgba(37, 37, 37, 0.95);
+  --box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.3);
+  --box-shadow-hover: 0 19px 38px rgba(0, 0, 0, 0.5), 0 15px 12px rgba(0, 0, 0, 0.5);
 }
 
 header {
@@ -19,19 +21,19 @@ header {
   border-bottom-left-radius: 20px;
   border-top-left-radius: 20px;
   border: 1px solid var(--colorButton);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   padding: 0 40px;
   font-size: 16px;
   outline: none;
 }
 
 .search-input:focus-visible {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--box-shadow-hover);
   outline: none;
 }
 
 .search-input:focus-visible ~ .search-button {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--box-shadow-hover);
 }
 
 .search-button {
@@ -43,7 +45,7 @@ header {
   border-top-right-radius: 20px;
   background: var(--colorButton);
   border: 1px solid var(--colorButton);
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   color: white;
 }
 
