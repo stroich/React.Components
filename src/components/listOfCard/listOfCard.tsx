@@ -1,9 +1,9 @@
-import { IArtwork } from '../../API/api.ts';
+import { CardData } from '../../API/api.ts';
 import { Component } from 'react';
 import './listOfCard.css';
 
 interface ListOfCardProps {
-  artworks: Array<IArtwork>;
+  artworks: Array<CardData>;
 }
 
 class ListOfCard extends Component<ListOfCardProps> {
@@ -12,7 +12,7 @@ class ListOfCard extends Component<ListOfCardProps> {
 
     return (
       <div className={'cards'}>
-        {artworks.map((artwork: IArtwork) => (
+        {artworks.map((artwork: CardData) => (
           <div className={'card'} key={artwork.id}>
             <img src={artwork.url} alt={artwork.title} />
             <h3 className={'card-title'}>{artwork.title}</h3>

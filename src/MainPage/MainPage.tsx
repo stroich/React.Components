@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { getArrArtWork, IArtwork } from '../API/api.ts';
+import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
 import { ErrorBoundary } from '../components/Error/ErrorBoundary.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
@@ -7,7 +7,7 @@ import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
 import './MainPage.css';
 
 interface MainState {
-  arrValue: Array<IArtwork>;
+  arrValue: Array<CardData>;
   isLoading: boolean;
 }
 

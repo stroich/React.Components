@@ -3,7 +3,19 @@ interface Artwork {
   title: string;
 }
 
-export interface IArtwork {
+interface IResponseArtwork {
+  data: Array<Artwork>;
+}
+
+interface IResponseImg {
+  data: {
+    id: number;
+    title: string;
+    image_id: string;
+  };
+}
+
+export interface CardData {
   id: number;
   title: string;
   url: string;
@@ -16,7 +28,9 @@ function returnIdAndTitle(data: Array<Artwork>): Array<Artwork> {
   }));
 }
 
-async function fetchApi(apiUrl: string) {
+async function fetchApi(
+  apiUrl: string
+): Promise<IResponseArtwork | IResponseImg> {
   try {
     const response = await fetch(apiUrl);
     return await response.json();
@@ -28,13 +42,13 @@ async function fetchApi(apiUrl: string) {
 
 export async function getArrArtWork(searchValue: string) {
   let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&&page=2&limit=8`;
-  const response = await fetchApi(apiUrl);
+  const response = (await fetchApi(apiUrl)) as IResponseArtwork;
   const arrArtWork = returnIdAndTitle(response.data);
 
   return await Promise.all(
     arrArtWork.map(async (el) => {
       apiUrl = `https://api.artic.edu/api/v1/artworks/${el.id}?fields=id,title,image_id`;
-      const result = await fetchApi(apiUrl);
+      const result = (await fetchApi(apiUrl)) as IResponseImg;
       return {
         id: el.id,
         title: el.title,
