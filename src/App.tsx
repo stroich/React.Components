@@ -15,25 +15,8 @@ class App extends Component<NonNullable<unknown>, AppState> {
     super(props);
     this.state = {
       arrValue: [],
-      isLoading: true,
+      isLoading: false,
     };
-  }
-
-  async componentDidMount() {
-    const searchValue = localStorage.getItem('searchValue');
-    if (searchValue) {
-      const arrValue = await getArrArtWork(searchValue);
-      this.setState(() => ({
-        arrValue: arrValue,
-        isLoading: false,
-      }));
-    } else {
-      const arrValue = await getArrArtWork(' ');
-      this.setState(() => ({
-        arrValue: arrValue,
-        isLoading: false,
-      }));
-    }
   }
 
   setArrValue = async () => {
@@ -41,17 +24,17 @@ class App extends Component<NonNullable<unknown>, AppState> {
       isLoading: true,
     }));
     const searchValue = localStorage.getItem('searchValue');
-    if (searchValue) {
-      const arrValue = await getArrArtWork(searchValue);
-      this.setState({ arrValue: arrValue, isLoading: false });
-    } else {
-      const arrValue = await getArrArtWork(' ');
-      this.setState(() => ({
-        arrValue: arrValue,
-        isLoading: false,
-      }));
-    }
+    const queryValue = searchValue || ' ';
+    const arrValue = await getArrArtWork(queryValue);
+    this.setState({
+      arrValue: arrValue,
+      isLoading: false,
+    });
   };
+
+  async componentDidMount() {
+    await this.setArrValue();
+  }
 
   render() {
     return (
@@ -64,8 +47,8 @@ class App extends Component<NonNullable<unknown>, AppState> {
             )}
             {this.state.isLoading && <div className="loading">loading...</div>}
           </main>
+          <ErrorButton />
         </ErrorBoundary>
-        <ErrorButton />
       </div>
     );
   }
