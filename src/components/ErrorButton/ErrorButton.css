@@ -1,0 +1,16 @@
+.error-button {
+  position: absolute;
+  top: 150px;
+  left: 40px;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.error-button:hover {
+  box-shadow: var(--box-shadow-hover);
+}

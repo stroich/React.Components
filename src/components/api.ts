@@ -19,14 +19,10 @@ function returnIdAndTitle(data: Array<Artwork>): Array<Artwork> {
 async function fetchApi(apiUrl: string) {
   try {
     const response = await fetch(apiUrl);
-    if (!response.ok) {
-      console.log(
-        `Error executing fetch fetchApi: ${response.status} ${response.statusText}`
-      );
-    }
     return await response.json();
   } catch (error) {
-    console.error('Произошла ошибка:', error);
+    console.error('An error has occurred:', error);
+    throw error;
   }
 }
 
