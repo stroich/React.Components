@@ -12,11 +12,11 @@ module.exports = {
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    "ecmaFeatures": {
+    ecmaFeatures: {
       "jsx": true
     },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    ecmaVersion: "latest",
+    sourceType: "module"
   },
   plugins: ['react-refresh', "@typescript-eslint", "react", "react-hooks"],
   rules: {
@@ -39,4 +39,10 @@ module.exports = {
       { allowConstantExport: true },
     ],
   },
+  settings: {
+    react: {
+      pragma: "React",
+      version: "detect"
+    }
+  }
 }
