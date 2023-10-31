@@ -1,0 +1,55 @@
+:root {
+  --colorButton: rgba(37, 37, 37, 0.95);
+  --box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.3);
+  --box-shadow-hover: 0 19px 38px rgba(0, 0, 0, 0.5),
+    0 15px 12px rgba(0, 0, 0, 0.5);
+}
+
+header {
+  margin: 0 10%;
+}
+
+.search {
+  margin: 5% 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  box-sizing: border-box;
+  height: 40px;
+  width: 50%;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  border: 1px solid var(--colorButton);
+  box-shadow: var(--box-shadow);
+  padding: 0 40px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-input:focus-visible {
+  box-shadow: var(--box-shadow-hover);
+  outline: none;
+}
+
+.search-input:focus-visible ~ .search-button {
+  box-shadow: var(--box-shadow-hover);
+}
+
+.search-button {
+  box-sizing: border-box;
+  padding: 0 20px;
+  font-size: 14px;
+  height: 40px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  background: var(--colorButton);
+  border: 1px solid var(--colorButton);
+  box-shadow: var(--box-shadow);
+  color: white;
+}
+
+.search-button:hover {
+  cursor: pointer;
+}
