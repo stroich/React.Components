@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
-import { ErrorBoundary } from '../components/Error/ErrorBoundary.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
 import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
 import './MainPage.css';
@@ -41,16 +40,14 @@ class MainPage extends Component<object, MainState> {
     return (
       <div className={'container'}>
         <Search setArrValue={this.updateData} />
-        <ErrorBoundary>
-          <main>
-            {this.state.isLoading ? (
-              <div className="loading">loading...</div>
-            ) : (
-              <ListOfCard artworks={this.state.arrValue} />
-            )}
-          </main>
-          <ErrorButton />
-        </ErrorBoundary>
+        <main>
+          {this.state.isLoading ? (
+            <div className="loading">loading...</div>
+          ) : (
+            <ListOfCard artworks={this.state.arrValue} />
+          )}
+        </main>
+        <ErrorButton />
       </div>
     );
   }
