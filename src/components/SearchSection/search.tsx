@@ -23,14 +23,17 @@ class Search extends Component<SearchProps, SearchState> {
   }
 
   handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
+    const searchValue = event.target.value.trim();
     this.setState({ searchValue: searchValue });
   };
 
   clickButton = () => {
     const { searchValue } = this.state;
-    localStorage.setItem('searchValue', searchValue);
-    this.props.setArrValue();
+    const searchValueInLocalStorage = localStorage.getItem('searchValue');
+    if (searchValue !== searchValueInLocalStorage) {
+      localStorage.setItem('searchValue', searchValue);
+      this.props.setArrValue();
+    }
   };
 
   render() {
