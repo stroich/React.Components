@@ -1,35 +1,24 @@
-import { Component } from 'react';
-import './ErrorButton.css';
+import { useState } from 'react';
+import styles from './ErrorButton.module.css';
 
-interface ErrorButtonState {
-  error: Error | null;
-}
+type CustomErrorType = Error | null;
 
-export class ErrorButton extends Component<
-  NonNullable<unknown>,
-  ErrorButtonState
-> {
-  constructor(props: NonNullable<unknown>) {
-    super(props);
-    this.state = { error: null };
-  }
-
-  handleClick = () => {
+export const ErrorButton = () => {
+  const [CustomError, setCustomError] = useState<CustomErrorType>(null);
+  const handleClick = () => {
     try {
       throw new Error('Error when pressing the button');
     } catch (error) {
-      this.setState({ error: error as Error });
+      setCustomError(error as Error);
     }
   };
 
-  render() {
-    if (this.state.error) {
-      throw this.state.error;
-    }
-    return (
-      <button className={'error-button'} onClick={this.handleClick}>
-        Error checking
-      </button>
-    );
+  if (CustomError !== null) {
+    throw CustomError;
   }
-}
+  return (
+    <button className={styles.errorButton} onClick={handleClick}>
+      Error checking
+    </button>
+  );
+};

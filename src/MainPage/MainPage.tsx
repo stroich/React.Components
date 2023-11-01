@@ -1,56 +1,40 @@
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
 import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
-import './MainPage.css';
+import styles from './MainPage.module.css';
 
-interface MainState {
-  arrValue: Array<CardData>;
-  isLoading: boolean;
-}
+const MainPage = () => {
+  const [arrValue, setArrValue] = useState<Array<CardData>>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-class MainPage extends Component<object, MainState> {
-  constructor(props: object) {
-    super(props);
-    this.state = {
-      arrValue: [],
-      isLoading: false,
-    };
-  }
+  useEffect(() => {
+    updateData();
+  }, []);
 
-  updateData = async () => {
-    this.setState(() => ({
-      isLoading: true,
-    }));
+  const updateData = async () => {
+    setIsLoading(true);
     const searchValue = localStorage.getItem('searchValue');
     const queryValue = searchValue || ' ';
     const arrValue = await getArrArtWork(queryValue);
-    this.setState({
-      arrValue: arrValue,
-      isLoading: false,
-    });
+    setArrValue(arrValue);
+    setIsLoading(false);
   };
 
-  async componentDidMount() {
-    await this.updateData();
-  }
-
-  render() {
-    return (
-      <div className={'container'}>
-        <Search setArrValue={this.updateData} />
-        <main>
-          {this.state.isLoading ? (
-            <div className="loading">loading...</div>
-          ) : (
-            <ListOfCard artworks={this.state.arrValue} />
-          )}
-        </main>
-        <ErrorButton />
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.container}>
+      <Search setArrValue={updateData} />
+      <main>
+        {isLoading ? (
+          <div className={styles.loading}>loading...</div>
+        ) : (
+          <ListOfCard artworks={arrValue} />
+        )}
+      </main>
+      <ErrorButton />
+    </div>
+  );
+};
 
 export default MainPage;

@@ -1,0 +1,11 @@
+.container {
+  margin: 0 auto;
+  max-width: 1440px;
+}
+
+.loading {
+  font-size: 25px;
+  color: white;
+  text-shadow: var(--box-shadow);
+}
+

@@ -1,4 +1,4 @@
-.error-button {
+.errorButton {
   position: absolute;
   top: 150px;
   left: 40px;
@@ -11,6 +11,6 @@
   transition: all 0.3s ease;
 }
 
-.error-button:hover {
+.errorButton:hover {
   box-shadow: var(--box-shadow-hover);
 }
