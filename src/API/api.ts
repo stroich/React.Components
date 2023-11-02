@@ -4,6 +4,7 @@ interface Artwork {
 }
 
 interface IResponseArtwork {
+  pagination: { total_pages: number };
   data: Array<Artwork>;
 }
 
@@ -40,12 +41,15 @@ async function fetchApi(
   }
 }
 
-export async function getArrArtWork(searchValue: string) {
-  let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&&page=2&limit=8`;
+export async function getArrArtWork(searchValue: string, page: number) {
+  let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&page=${page}&limit=8`;
   const response = (await fetchApi(apiUrl)) as IResponseArtwork;
+  let totalPages = response.pagination.total_pages;
+  if (totalPages > 100) {
+    totalPages = 100;
+  }
   const arrArtWork = returnIdAndTitle(response.data);
-
-  return await Promise.all(
+  const newArrArtWork = await Promise.all(
     arrArtWork.map(async (el) => {
       apiUrl = `https://api.artic.edu/api/v1/artworks/${el.id}?fields=id,title,image_id`;
       const result = (await fetchApi(apiUrl)) as IResponseImg;
@@ -56,4 +60,8 @@ export async function getArrArtWork(searchValue: string) {
       };
     })
   );
+  return {
+    totalPages: totalPages,
+    arrArtWork: newArrArtWork,
+  };
 }

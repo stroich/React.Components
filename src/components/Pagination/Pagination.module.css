@@ -1,0 +1,30 @@
+.pagination {
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.pagination button {
+    width: 50px;
+    height: 50px;
+    color: #333;
+    margin: 10px;
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    padding: 5px 10px;
+    text-decoration: none;
+    box-shadow: var(--box-shadow);
+    transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: gray;
+    color: #fff;
+    border: gray;
+    cursor: default;
+}
