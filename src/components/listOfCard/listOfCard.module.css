@@ -6,7 +6,7 @@
   align-items: start;
 }
 
-.cardsOpenDetails{
+.cardsOpenDetails {
   grid-template-columns: repeat(2, 1fr);
 }
 
@@ -24,7 +24,7 @@
   transition: 1s ease;
 }
 
-.card:hover{
+.card:hover {
   cursor: pointer;
   transform: scale(1.05);
 }

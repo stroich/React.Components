@@ -6,7 +6,7 @@ main {
   align-items: center;
 }
 
-.wrapper{
+.wrapper {
   display: flex;
   width: 100%;
 }
@@ -15,4 +15,3 @@ main {
   margin: 0 auto;
   max-width: 1440px;
 }
-

@@ -1,20 +1,20 @@
-.details{
-    position: sticky;
-    top: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 0 10px;
-    width: 50%;
-    height: 100%;
-    color: white;
-    padding: 10px 30px;
-    border: 1px solid white;
+.details {
+  position: sticky;
+  top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  width: 50%;
+  height: 100%;
+  color: white;
+  padding: 10px 30px;
+  border: 1px solid white;
 }
 
 .details p,
 .details h3,
-.details h4{
-    text-align: justify;
+.details h4 {
+  text-align: justify;
 }
