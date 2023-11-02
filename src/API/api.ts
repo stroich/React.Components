@@ -29,9 +29,7 @@ function returnIdAndTitle(data: Array<Artwork>): Array<Artwork> {
   }));
 }
 
-async function fetchApi(
-  apiUrl: string
-): Promise<IResponseArtwork | IResponseImg> {
+async function fetchApi(apiUrl: string) {
   try {
     const response = await fetch(apiUrl);
     return await response.json();
@@ -63,5 +61,16 @@ export async function getArrArtWork(searchValue: string, page: number) {
   return {
     totalPages: totalPages,
     arrArtWork: newArrArtWork,
+  };
+}
+
+export async function getDetails(cardId: string) {
+  const apiUrl = `https://api.artic.edu/api/v1/artworks/${cardId}`;
+  const response = await fetchApi(apiUrl);
+  return {
+    title: response.data.title,
+    description: response.data.description,
+    data: response.data.date_start,
+    culture: response.data.artist_display,
   };
 }

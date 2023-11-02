@@ -1,0 +1,6 @@
+.loading {
+    font-size: 25px;
+    color: white;
+    text-shadow: var(--box-shadow);
+    margin: 150px;
+}

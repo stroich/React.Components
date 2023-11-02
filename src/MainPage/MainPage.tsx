@@ -1,29 +1,31 @@
 import { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
 import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
 import styles from './MainPage.module.css';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import Loading from '../components/Loading/Loading.tsx';
 
 const MainPage = () => {
-  const location = useLocation();
   const [arrValue, setArrValue] = useState<Array<CardData>>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const match = location.search.match(/\d+/);
-    if (match) {
-      const number = match[0];
-      setPage(+number);
-      updateData(+number);
+    const pageSearchParams = searchParams.get('page');
+    if (pageSearchParams) {
+      setPage(+pageSearchParams);
+      updateData(+pageSearchParams);
     } else {
       updateData();
     }
-  }, [location.search]);
+  }, []);
 
   const updateData = async (currentPage = page) => {
     setIsLoading(true);
@@ -37,8 +39,12 @@ const MainPage = () => {
 
   const handlePageChange = async (newPage: number) => {
     setPage(newPage);
-    setSearchParams(`page=${newPage}`);
+    navigate(`/?page=${newPage}`);
     await updateData(newPage);
+  };
+
+  const handleCardClick = (cardId: number) => {
+    navigate(`/details?page=${page}&details=${cardId}`);
   };
 
   return (
@@ -52,14 +58,18 @@ const MainPage = () => {
       />
       <main>
         {isLoading ? (
-          <div className={styles.loading}>loading...</div>
+          <Loading />
         ) : (
-          <ListOfCard
-            artworks={arrValue}
-            setPage={handlePageChange}
-            page={page}
-            totalPages={totalPages}
-          />
+          <div className={styles.wrapper}>
+            <ListOfCard
+              artworks={arrValue}
+              setPage={handlePageChange}
+              page={page}
+              totalPages={totalPages}
+              handleCardClick={handleCardClick}
+            />
+            <Outlet />
+          </div>
         )}
       </main>
       <ErrorButton />

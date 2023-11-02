@@ -15,7 +15,7 @@ const Search: FC<SearchProps> = ({ setArrValue }) => {
   }, []);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value.trim();
+    const searchValue = event.target.value;
     setSearchValue(searchValue);
   };
 
