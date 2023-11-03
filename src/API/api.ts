@@ -39,8 +39,12 @@ async function fetchApi(apiUrl: string) {
   }
 }
 
-export async function getArrArtWork(searchValue: string, page: number) {
-  let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&page=${page}&limit=8`;
+export async function getArrArtWork(
+  searchValue: string,
+  page: number,
+  limit: number
+) {
+  let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&page=${page}&limit=${limit}`;
   const response = (await fetchApi(apiUrl)) as IResponseArtwork;
   let totalPages = response.pagination.total_pages;
   if (totalPages > 100) {

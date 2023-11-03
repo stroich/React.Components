@@ -1,10 +1,17 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import styles from './search.module.css';
+import CardSelector from '../CardSelector/CardSelector.tsx';
 
 interface SearchProps {
+  cardsPerPage: number;
+  setCardsPerPage: (cardsPerPage: number) => void;
   setArrValue: () => void;
 }
-const Search: FC<SearchProps> = ({ setArrValue }) => {
+const Search: FC<SearchProps> = ({
+  setArrValue,
+  setCardsPerPage,
+  cardsPerPage,
+}) => {
   const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
@@ -41,6 +48,10 @@ const Search: FC<SearchProps> = ({ setArrValue }) => {
         <button className={styles.searchButton} onClick={clickButton}>
           Search
         </button>
+        <CardSelector
+          setCardsPerPage={setCardsPerPage}
+          cardsPerPage={cardsPerPage}
+        />
       </div>
     </header>
   );

@@ -9,7 +9,7 @@
   width: 50%;
   height: 100%;
   color: white;
-  padding: 10px 30px;
+  padding: 30px;
   border: 1px solid white;
 }
 
@@ -17,4 +17,11 @@
 .details h3,
 .details h4 {
   text-align: justify;
+}
+
+.closeIcon{
+  margin-top: 5px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
 }

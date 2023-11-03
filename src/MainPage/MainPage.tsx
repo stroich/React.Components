@@ -11,6 +11,7 @@ import Loading from '../components/Loading/Loading.tsx';
 const MainPage = () => {
   const [arrValue, setArrValue] = useState<Array<CardData>>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [numberOfCard, setNumberOfCard] = useState(8);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,11 +28,17 @@ const MainPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setPage(1);
+    navigate(`/`);
+    updateData(1);
+  }, [numberOfCard]);
+
   const updateData = async (currentPage = page) => {
     setIsLoading(true);
     const searchValue = localStorage.getItem('searchValue');
     const queryValue = searchValue || ' ';
-    const result = await getArrArtWork(queryValue, currentPage);
+    const result = await getArrArtWork(queryValue, currentPage, numberOfCard);
     setArrValue(result.arrArtWork);
     setTotalPages(result.totalPages);
     setIsLoading(false);
@@ -50,6 +57,8 @@ const MainPage = () => {
   return (
     <div className={styles.container}>
       <Search
+        setCardsPerPage={setNumberOfCard}
+        cardsPerPage={numberOfCard}
         setArrValue={async () => {
           setPage(1);
           setSearchParams(``);

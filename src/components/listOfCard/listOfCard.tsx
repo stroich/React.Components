@@ -26,6 +26,8 @@ const ListOfCard: FC<ListOfCardProps> = ({
     const detailsSearchParams = searchParams.get('details');
     if (detailsSearchParams) {
       setIsOpenCard(true);
+    } else {
+      setIsOpenCard(false);
     }
   }, [searchParams]);
 
