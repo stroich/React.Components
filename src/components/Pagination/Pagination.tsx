@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import styles from './Pagination.module.css';
 import { generatePageButtons } from './generatePageButtons.ts';
 

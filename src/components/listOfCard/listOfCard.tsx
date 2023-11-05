@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
 import { CardData } from '../../API/api.ts';
 import styles from './listOfCard.module.css';
 import Pagination from '../Pagination/Pagination.tsx';
-import { useSearchParams } from 'react-router-dom';
 
 interface ListOfCardProps {
   artworks: Array<CardData>;

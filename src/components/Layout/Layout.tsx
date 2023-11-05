@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom';
+
 import { ErrorBoundary } from '../Error/ErrorBoundary.tsx';
 
 const Layout = () => {

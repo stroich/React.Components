@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
+
 import styles from './search.module.css';
 import CardSelector from '../CardSelector/CardSelector.tsx';
 

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+
 import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
 import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
 import styles from './MainPage.module.css';
-import { useSearchParams } from 'react-router-dom';
 import Loading from '../components/Loading/Loading.tsx';
 
 const MainPage = () => {

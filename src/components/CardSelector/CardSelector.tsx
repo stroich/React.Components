@@ -1,4 +1,5 @@
 import { ChangeEvent, FC } from 'react';
+
 import styles from './CardSelector.module.css';
 
 interface CardSelectorProps {

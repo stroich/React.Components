@@ -1,6 +1,7 @@
-import styles from './Details.module.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
+
+import styles from './Details.module.css';
 import { getDetails } from '../../API/api.ts';
 import Loading from '../Loading/Loading.tsx';
 import closeIcon from '../../../public/close-icon.svg';

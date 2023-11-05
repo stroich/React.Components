@@ -18,7 +18,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module"
   },
-  plugins: ['react-refresh', "@typescript-eslint", "react", "react-hooks"],
+  plugins: ['react-refresh', "@typescript-eslint", "react", "react-hooks", "import"],
   rules: {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
@@ -38,6 +38,10 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "import/order": ["error", {
+      "groups": [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
+      "newlines-between": "always",
+    }]
   },
   settings: {
     react: {
