@@ -10,7 +10,7 @@ import SearchResultsSection from '../components/SearchResultsSection/SearchResul
 
 const MainPage = () => {
   const [arrValue, setArrValue] = useState<Array<CardData>>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [numberOfCard, setNumberOfCard] = useState(8);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
