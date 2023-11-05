@@ -45,6 +45,7 @@ const MainPage = () => {
         setArrValue={async () => {
           setPage(1);
           navigate(`/`);
+          await updateData();
         }}
       />
       <main>
