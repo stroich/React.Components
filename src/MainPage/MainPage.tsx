@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 
 import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
-import ListOfCard from '../components/listOfCard/listOfCard.tsx';
 import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
 import styles from './MainPage.module.css';
 import Loading from '../components/Loading/Loading.tsx';
+import SearchResultsSection from '../components/SearchResultsSection/SearchResultsSection.tsx';
 
 const MainPage = () => {
   const [arrValue, setArrValue] = useState<Array<CardData>>([]);
@@ -15,7 +15,7 @@ const MainPage = () => {
   const [numberOfCard, setNumberOfCard] = useState(8);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ const MainPage = () => {
     } else {
       updateData();
     }
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     setPage(1);
@@ -45,16 +45,6 @@ const MainPage = () => {
     setIsLoading(false);
   };
 
-  const handlePageChange = async (newPage: number) => {
-    setPage(newPage);
-    navigate(`/?page=${newPage}`);
-    await updateData(newPage);
-  };
-
-  const handleCardClick = (cardId: number) => {
-    navigate(`/details?page=${page}&details=${cardId}`);
-  };
-
   return (
     <div className={styles.container}>
       <Search
@@ -62,24 +52,19 @@ const MainPage = () => {
         cardsPerPage={numberOfCard}
         setArrValue={async () => {
           setPage(1);
-          setSearchParams(``);
-          await updateData(1);
+          navigate(`/`);
         }}
       />
       <main>
         {isLoading ? (
           <Loading />
         ) : (
-          <div className={styles.wrapper}>
-            <ListOfCard
-              artworks={arrValue}
-              setPage={handlePageChange}
-              page={page}
-              totalPages={totalPages}
-              handleCardClick={handleCardClick}
-            />
-            <Outlet />
-          </div>
+          <SearchResultsSection
+            page={page}
+            setPage={setPage}
+            totalPages={totalPages}
+            arrValue={arrValue}
+          />
         )}
       </main>
       <ErrorButton />

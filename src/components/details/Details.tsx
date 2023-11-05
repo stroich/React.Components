@@ -1,10 +1,10 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './Details.module.css';
 import { getDetails } from '../../API/api.ts';
 import Loading from '../Loading/Loading.tsx';
-import closeIcon from '../../../public/close-icon.svg';
+import DetailCard from '../DetailCard/DetailCard.tsx';
 
 const Details = () => {
   const navigate = useNavigate();
@@ -41,20 +41,7 @@ const Details = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div>
-          <img
-            className={styles.closeIcon}
-            src={closeIcon}
-            alt={'close'}
-            onClick={clickCloseButton}
-          />
-          <h2>{details.title}</h2>
-          <h3>Year: {details.data}</h3>
-          <h4>Culture: {details.culture}</h4>
-          {React.createElement('div', {
-            dangerouslySetInnerHTML: { __html: details.description },
-          })}
-        </div>
+        <DetailCard clickCloseButton={clickCloseButton} details={details} />
       )}
     </div>
   );
