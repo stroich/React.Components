@@ -24,6 +24,7 @@ const MainPage = () => {
   useEffect(() => {
     setPage(1);
     navigate(`/`);
+    updateData();
   }, [numberOfCard]);
 
   const updateData = async (currentPage = page) => {

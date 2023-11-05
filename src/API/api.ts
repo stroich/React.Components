@@ -4,7 +4,7 @@ interface Artwork {
 }
 
 interface IResponseArtwork {
-  pagination: { total_pages: number };
+  pagination: { total_pages: number; total: number; limit: number };
   data: Array<Artwork>;
 }
 
@@ -46,9 +46,9 @@ export async function getArrArtWork(
 ) {
   let apiUrl = `https://api.artic.edu/api/v1/artworks/search?q=${searchValue}&query[term][is_public_domain]=true&page=${page}&limit=${limit}`;
   const response = (await fetchApi(apiUrl)) as IResponseArtwork;
-  let totalPages = response.pagination.total_pages;
-  if (totalPages > 100) {
-    totalPages = 100;
+  let totalPages = response.pagination.total;
+  if (totalPages > 800) {
+    totalPages = Math.floor(800 / limit);
   }
   const arrArtWork = returnIdAndTitle(response.data);
   const newArrArtWork = await Promise.all(
