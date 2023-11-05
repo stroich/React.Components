@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
 
 import { getArrArtWork, CardData } from '../API/api.ts';
 import Search from '../components/SearchSection/search.tsx';
@@ -15,24 +14,16 @@ const MainPage = () => {
   const [numberOfCard, setNumberOfCard] = useState(8);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const pageSearchParams = searchParams.get('page');
-    if (pageSearchParams) {
-      setPage(+pageSearchParams);
-      updateData(+pageSearchParams);
-    } else {
-      updateData();
-    }
+    updateData();
   }, [page]);
 
   useEffect(() => {
     setPage(1);
     navigate(`/`);
-    updateData(1);
   }, [numberOfCard]);
 
   const updateData = async (currentPage = page) => {

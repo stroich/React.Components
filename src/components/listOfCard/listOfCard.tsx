@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { CardData } from '../../API/api.ts';
 import styles from './listOfCard.module.css';
@@ -11,6 +11,7 @@ interface ListOfCardProps {
   handleCardClick: (cardId: number) => void;
   page: number;
   totalPages: number;
+  outletRef: React.RefObject<HTMLImageElement>;
 }
 
 const ListOfCard: FC<ListOfCardProps> = ({
@@ -19,9 +20,25 @@ const ListOfCard: FC<ListOfCardProps> = ({
   handleCardClick,
   page,
   totalPages,
+  outletRef,
 }) => {
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const cardRef = useRef<HTMLImageElement>(null);
+
+  const handleClickOutside = (event: Event) => {
+    const isTarget = event.target === event.currentTarget;
+    if (
+      !isTarget &&
+      outletRef.current &&
+      !outletRef.current.contains(event.target as Node) &&
+      cardRef.current &&
+      !cardRef.current.contains(event.target as Node)
+    ) {
+      navigate(`/?page=${page}`);
+    }
+  };
 
   useEffect(() => {
     const detailsSearchParams = searchParams.get('details');
@@ -32,9 +49,19 @@ const ListOfCard: FC<ListOfCardProps> = ({
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    if (isOpenCard) {
+      document.addEventListener('click', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isOpenCard]);
+
   return (
     <div>
       <div
+        ref={cardRef}
         className={`${styles.cards} ${
           isOpenCard ? styles.cardsOpenDetails : ''
         }`}

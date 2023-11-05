@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import styles from '../../MainPage/MainPage.module.css';
+import styles from './SearchResultsSection.module.css';
 import ListOfCard from '../listOfCard/listOfCard.tsx';
 import { CardData } from '../../API/api.ts';
 
@@ -19,6 +19,8 @@ const SearchResultsSection: FC<SearchResultsSectionProps> = ({
   arrValue,
 }) => {
   const navigate = useNavigate();
+  const outletRef = useRef<HTMLImageElement>(null);
+
   const handlePageChange = async (newPage: number) => {
     setPage(newPage);
     navigate(`/?page=${newPage}`);
@@ -36,8 +38,11 @@ const SearchResultsSection: FC<SearchResultsSectionProps> = ({
         page={page}
         totalPages={totalPages}
         handleCardClick={handleCardClick}
+        outletRef={outletRef}
       />
-      <Outlet />
+      <div className={styles.detailsWrapper} ref={outletRef}>
+        <Outlet />
+      </div>
     </div>
   );
 };
