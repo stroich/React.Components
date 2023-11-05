@@ -68,7 +68,7 @@ export async function getArrArtWork(
   };
 }
 
-export async function getDetails(cardId: string) {
+export async function getDetailsAboutTheCard(cardId: string) {
   const apiUrl = `https://api.artic.edu/api/v1/artworks/${cardId}`;
   const response = await fetchApi(apiUrl);
   return {

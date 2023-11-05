@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import styles from './Details.module.css';
-import { getDetails } from '../../API/api.ts';
+import { getDetailsAboutTheCard } from '../../API/api.ts';
 import Loading from '../Loading/Loading.tsx';
 import DetailCard from '../DetailCard/DetailCard.tsx';
 
@@ -19,7 +19,7 @@ const Details = () => {
   });
 
   const updateData = async (cardId: string) => {
-    const newDetails = await getDetails(cardId);
+    const newDetails = await getDetailsAboutTheCard(cardId);
     setDetails(newDetails);
   };
 
