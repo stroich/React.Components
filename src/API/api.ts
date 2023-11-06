@@ -49,6 +49,8 @@ export async function getArrArtWork(
   let totalPages = response.pagination.total;
   if (totalPages > 800) {
     totalPages = Math.floor(800 / limit);
+  } else {
+    totalPages = response.pagination.total_pages;
   }
   const arrArtWork = returnIdAndTitle(response.data);
   const newArrArtWork = await Promise.all(
