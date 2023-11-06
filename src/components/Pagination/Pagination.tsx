@@ -1,38 +1,37 @@
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 
 import styles from './Pagination.module.css';
 import { generatePageButtons } from './generatePageButtons.ts';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
 
 interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
   onPageChange: (i: number) => void;
 }
-const Pagination: FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-}) => {
-  const pageButtons = generatePageButtons(currentPage, totalPages);
+const Pagination: FC<PaginationProps> = ({ onPageChange }) => {
+  const { page, totalPages } = useContext(DataContext) as DataContextType;
+  const pageButtons = generatePageButtons(page, totalPages);
 
   return (
     <div className={styles.pagination}>
       <div>
-        <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
+        <button onClick={() => onPageChange(1)} disabled={page === 1}>
           {'<<'}
         </button>
-        {pageButtons.map((page) => (
+        {pageButtons.map((numberButton) => (
           <button
-            key={page}
-            onClick={() => onPageChange(page)}
-            disabled={page === currentPage}
+            key={numberButton}
+            onClick={() => onPageChange(numberButton)}
+            disabled={numberButton === page}
           >
-            {page}
+            {numberButton}
           </button>
         ))}
         <button
           onClick={() => onPageChange(totalPages)}
-          disabled={currentPage === totalPages}
+          disabled={page === totalPages}
         >
           {'>>'}
         </button>

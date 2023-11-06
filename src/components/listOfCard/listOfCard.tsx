@@ -1,27 +1,26 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { CardData } from '../../API/api.ts';
 import styles from './listOfCard.module.css';
 import Pagination from '../Pagination/Pagination.tsx';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
 
 interface ListOfCardProps {
-  artworks: Array<CardData>;
-  setPage: (page: number) => void;
+  handlePageChange: (page: number) => void;
   handleCardClick: (cardId: number) => void;
-  page: number;
-  totalPages: number;
   outletRef: React.RefObject<HTMLImageElement>;
 }
 
 const ListOfCard: FC<ListOfCardProps> = ({
-  artworks,
-  setPage,
+  handlePageChange,
   handleCardClick,
-  page,
-  totalPages,
   outletRef,
 }) => {
+  const { page, arrValue } = useContext(DataContext) as DataContextType;
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ const ListOfCard: FC<ListOfCardProps> = ({
           isOpenCard ? styles.cardsOpenDetails : ''
         }`}
       >
-        {artworks.map((artwork: CardData) => (
+        {arrValue.map((artwork: CardData) => (
           <div
             className={styles.card}
             key={artwork.id}
@@ -80,11 +79,7 @@ const ListOfCard: FC<ListOfCardProps> = ({
           </div>
         ))}
       </div>
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      />
+      <Pagination onPageChange={handlePageChange} />
     </div>
   );
 };

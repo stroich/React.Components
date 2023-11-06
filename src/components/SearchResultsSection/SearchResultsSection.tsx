@@ -1,23 +1,15 @@
-import { FC, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import styles from './SearchResultsSection.module.css';
 import ListOfCard from '../listOfCard/listOfCard.tsx';
-import { CardData } from '../../API/api.ts';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
 
-interface SearchResultsSectionProps {
-  page: number;
-  totalPages: number;
-  setPage: (n: number) => void;
-  arrValue: Array<CardData>;
-}
-
-const SearchResultsSection: FC<SearchResultsSectionProps> = ({
-  page,
-  setPage,
-  totalPages,
-  arrValue,
-}) => {
+const SearchResultsSection = () => {
+  const { page, setPage } = useContext(DataContext) as DataContextType;
   const navigate = useNavigate();
   const outletRef = useRef<HTMLImageElement>(null);
 
@@ -33,10 +25,7 @@ const SearchResultsSection: FC<SearchResultsSectionProps> = ({
   return (
     <div className={styles.wrapper}>
       <ListOfCard
-        artworks={arrValue}
-        setPage={handlePageChange}
-        page={page}
-        totalPages={totalPages}
+        handlePageChange={handlePageChange}
         handleCardClick={handleCardClick}
         outletRef={outletRef}
       />

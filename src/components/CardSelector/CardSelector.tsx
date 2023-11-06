@@ -1,25 +1,24 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, useContext } from 'react';
 
 import styles from './CardSelector.module.css';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
 
-interface CardSelectorProps {
-  cardsPerPage: number;
-  setCardsPerPage: (cardsPerPage: number) => void;
-}
-
-const CardSelector: FC<CardSelectorProps> = ({
-  setCardsPerPage,
-  cardsPerPage,
-}) => {
+const CardSelector = () => {
+  const { numberOfCard, setNumberOfCard } = useContext(
+    DataContext
+  ) as DataContextType;
   const handleCardPerPageChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setCardsPerPage(parseInt(event.target.value, 10));
+    setNumberOfCard(parseInt(event.target.value, 10));
   };
 
   return (
     <div className={styles.wrapperSelector}>
       <select
         className={styles.select}
-        value={cardsPerPage}
+        value={numberOfCard}
         onChange={handleCardPerPageChange}
       >
         <option value={4}> 4</option>
