@@ -3,23 +3,17 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { CardData } from '../../API/api.ts';
 import styles from './listOfCard.module.css';
-import Pagination from '../Pagination/Pagination.tsx';
 import {
   DataContext,
   DataContextType,
 } from '../../app/Provider/DataProvider.tsx';
 
 interface ListOfCardProps {
-  handlePageChange: (page: number) => void;
   handleCardClick: (cardId: number) => void;
   outletRef: React.RefObject<HTMLImageElement>;
 }
 
-const ListOfCard: FC<ListOfCardProps> = ({
-  handlePageChange,
-  handleCardClick,
-  outletRef,
-}) => {
+const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick, outletRef }) => {
   const { page, arrValue } = useContext(DataContext) as DataContextType;
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [searchParams] = useSearchParams();
@@ -58,28 +52,23 @@ const ListOfCard: FC<ListOfCardProps> = ({
   }, [isOpenCard]);
 
   return (
-    <div>
-      <div
-        ref={cardRef}
-        className={`${styles.cards} ${
-          isOpenCard ? styles.cardsOpenDetails : ''
-        }`}
-      >
-        {arrValue.map((artwork: CardData) => (
-          <div
-            className={styles.card}
-            key={artwork.id}
-            onClick={() => {
-              handleCardClick(artwork.id);
-              setIsOpenCard(true);
-            }}
-          >
-            <img src={artwork.url} alt={artwork.title} />
-            <h3 className={styles.cardTitle}>{artwork.title}</h3>
-          </div>
-        ))}
-      </div>
-      <Pagination onPageChange={handlePageChange} />
+    <div
+      ref={cardRef}
+      className={`${styles.cards} ${isOpenCard ? styles.cardsOpenDetails : ''}`}
+    >
+      {arrValue.map((artwork: CardData) => (
+        <div
+          className={styles.card}
+          key={artwork.id}
+          onClick={() => {
+            handleCardClick(artwork.id);
+            setIsOpenCard(true);
+          }}
+        >
+          <img src={artwork.url} alt={artwork.title} />
+          <h3 className={styles.cardTitle}>{artwork.title}</h3>
+        </div>
+      ))}
     </div>
   );
 };

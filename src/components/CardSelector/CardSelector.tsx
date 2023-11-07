@@ -1,4 +1,5 @@
 import { ChangeEvent, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './CardSelector.module.css';
 import {
@@ -7,11 +8,16 @@ import {
 } from '../../app/Provider/DataProvider.tsx';
 
 const CardSelector = () => {
-  const { numberOfCard, setNumberOfCard } = useContext(
+  const { numberOfCard, setNumberOfCard, setPage } = useContext(
     DataContext
   ) as DataContextType;
-  const handleCardPerPageChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setNumberOfCard(parseInt(event.target.value, 10));
+  const navigate = useNavigate();
+  const handleCardPerPageChange = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    await setNumberOfCard(parseInt(event.target.value, 10));
+    await setPage(1);
+    await navigate('/');
   };
 
   return (

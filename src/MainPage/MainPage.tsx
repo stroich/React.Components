@@ -9,7 +9,7 @@ import SearchResultsSection from '../components/SearchResultsSection/SearchResul
 import { DataContext, DataContextType } from '../app/Provider/DataProvider.tsx';
 
 const MainPage = () => {
-  const { page, setPage, numberOfCard, updateData, isLoading } = useContext(
+  const { page, setPage, updateData, isLoading, numberOfCard } = useContext(
     DataContext
   ) as DataContextType;
 
@@ -17,13 +17,7 @@ const MainPage = () => {
 
   useEffect(() => {
     updateData();
-  }, [page]);
-
-  useEffect(() => {
-    setPage(1);
-    navigate(`/`);
-    updateData();
-  }, [numberOfCard]);
+  }, [page, numberOfCard]);
 
   return (
     <div className={styles.container}>
