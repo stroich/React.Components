@@ -7,6 +7,7 @@ import {
   DataContext,
   DataContextType,
 } from '../../app/Provider/DataProvider.tsx';
+import styles from './ListOfCardWithPagination.module.css';
 
 interface ListOfCardWithPaginationProps {
   outletRef: React.RefObject<HTMLImageElement>;
@@ -15,7 +16,9 @@ interface ListOfCardWithPaginationProps {
 const ListOfCardWithPagination: FC<ListOfCardWithPaginationProps> = ({
   outletRef,
 }) => {
-  const { page, setPage } = useContext(DataContext) as DataContextType;
+  const { page, setPage, arrValue } = useContext(
+    DataContext
+  ) as DataContextType;
   const navigate = useNavigate();
 
   const handlePageChange = async (newPage: number) => {
@@ -28,9 +31,11 @@ const ListOfCardWithPagination: FC<ListOfCardWithPaginationProps> = ({
   };
 
   return (
-    <div>
+    <div className={styles.wrapper}>
       <ListOfCard handleCardClick={handleCardClick} outletRef={outletRef} />
-      <Pagination onPageChange={handlePageChange} />
+      {arrValue.length > 0 ? (
+        <Pagination onPageChange={handlePageChange} />
+      ) : null}
     </div>
   );
 };

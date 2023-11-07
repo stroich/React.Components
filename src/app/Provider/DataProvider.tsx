@@ -3,7 +3,7 @@ import { createContext, FC, ReactNode, useState } from 'react';
 import { CardData, getArrArtWork } from '../../API/api.ts';
 
 export type DataContextType = {
-  arrValue: Array<CardData>;
+  arrValue: Array<CardData> | [];
   isLoading: boolean;
   totalPages: number;
   page: number;

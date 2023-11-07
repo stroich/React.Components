@@ -7,6 +7,7 @@ import {
   DataContext,
   DataContextType,
 } from '../../app/Provider/DataProvider.tsx';
+import Card from '../Card/Card.tsx';
 
 interface ListOfCardProps {
   handleCardClick: (cardId: number) => void;
@@ -52,24 +53,27 @@ const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick, outletRef }) => {
   }, [isOpenCard]);
 
   return (
-    <div
-      ref={cardRef}
-      className={`${styles.cards} ${isOpenCard ? styles.cardsOpenDetails : ''}`}
-    >
-      {arrValue.map((artwork: CardData) => (
+    <>
+      {arrValue.length === 0 ? (
+        <div className={styles.message}>Nothing found</div>
+      ) : (
         <div
-          className={styles.card}
-          key={artwork.id}
-          onClick={() => {
-            handleCardClick(artwork.id);
-            setIsOpenCard(true);
-          }}
+          ref={cardRef}
+          className={`${styles.cards} ${
+            isOpenCard ? styles.cardsOpenDetails : ''
+          }`}
         >
-          <img src={artwork.url} alt={artwork.title} />
-          <h3 className={styles.cardTitle}>{artwork.title}</h3>
+          {arrValue.map((artwork: CardData) => (
+            <Card
+              artwork={artwork}
+              key={artwork.id}
+              setIsOpenCard={setIsOpenCard}
+              handleCardClick={handleCardClick}
+            />
+          ))}
         </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 };
 
