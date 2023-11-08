@@ -7,25 +7,36 @@ import styles from './MainPage.module.css';
 import Loading from '../components/Loading/Loading.tsx';
 import SearchResultsSection from '../components/SearchResultsSection/SearchResultsSection.tsx';
 import { DataContext, DataContextType } from '../app/Provider/DataProvider.tsx';
+import { getArrArtWork } from '../API/api.ts';
 
 const MainPage = () => {
-  const { page, setPage, updateData, isLoading, numberOfCard } = useContext(
+  const { page, searchValue, isLoading, numberOfCard, updateData } = useContext(
     DataContext
   ) as DataContextType;
 
   const navigate = useNavigate();
 
+  const updateCards = async (currentPage = page) => {
+    updateData({ isLoading: true });
+    const result = await getArrArtWork(searchValue, currentPage, numberOfCard);
+    await updateData({
+      arrValue: result.arrArtWork,
+      totalPages: result.totalPages,
+      isLoading: false,
+    });
+  };
+
   useEffect(() => {
-    updateData();
+    updateCards();
   }, [page, numberOfCard]);
 
   return (
     <div className={styles.container}>
       <Search
         setArrValue={async () => {
-          setPage(1);
+          updateData({ page: 1 });
           navigate(`/`);
-          await updateData();
+          await updateCards();
         }}
       />
       <main>{isLoading ? <Loading /> : <SearchResultsSection />}</main>

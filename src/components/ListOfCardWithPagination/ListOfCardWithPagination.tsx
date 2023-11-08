@@ -16,13 +16,13 @@ interface ListOfCardWithPaginationProps {
 const ListOfCardWithPagination: FC<ListOfCardWithPaginationProps> = ({
   outletRef,
 }) => {
-  const { page, setPage, arrValue } = useContext(
+  const { page, arrValue, updateData } = useContext(
     DataContext
   ) as DataContextType;
   const navigate = useNavigate();
 
   const handlePageChange = async (newPage: number) => {
-    setPage(newPage);
+    updateData({ page: newPage });
     navigate(`/?page=${newPage}`);
   };
 

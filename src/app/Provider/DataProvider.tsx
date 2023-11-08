@@ -1,6 +1,6 @@
 import { createContext, FC, ReactNode, useState } from 'react';
 
-import { CardData, getArrArtWork } from '../../API/api.ts';
+import { CardData } from '../../API/api.ts';
 
 export type DataContextType = {
   arrValue: Array<CardData> | [];
@@ -9,10 +9,9 @@ export type DataContextType = {
   page: number;
   numberOfCard: number;
   searchValue: string;
-  updateData: (currentPage?: number) => void;
-  setPage: (n: number) => void;
-  setNumberOfCard: (n: number) => void;
-  setSearchValue: (s: string) => void;
+  updateData: (newData: {
+    [key: string]: string | number | boolean | Array<CardData> | [] | undefined;
+  }) => void;
 };
 
 export const DataContext = createContext<DataContextType | undefined>(
@@ -24,37 +23,31 @@ type DataContextProps = {
 };
 
 export const DataProvider: FC<DataContextProps> = ({ children }) => {
-  const [arrValue, setArrValue] = useState<Array<CardData>>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [numberOfCard, setNumberOfCard] = useState(8);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  let search = localStorage.getItem('searchValue');
-  search = search || ' ';
-  const [searchValue, setSearchValue] = useState(search);
+  let searchValue = localStorage.getItem('searchValue');
+  searchValue = searchValue || ' ';
+  const [context, setContext] = useState({
+    arrValue: [],
+    isLoading: true,
+    numberOfCard: 8,
+    page: 1,
+    totalPages: 0,
+    searchValue: searchValue,
+  });
 
-  const updateData = async (currentPage = page) => {
-    setIsLoading(true);
-    const queryValue = searchValue || ' ';
-    const result = await getArrArtWork(queryValue, currentPage, numberOfCard);
-    setArrValue(result.arrArtWork);
-    setTotalPages(result.totalPages);
-    setIsLoading(false);
+  const updateData = (newData: Partial<typeof DataContext>) => {
+    setContext((prevState) => {
+      return {
+        ...prevState,
+        ...newData,
+      };
+    });
   };
 
   return (
     <DataContext.Provider
       value={{
-        arrValue,
-        isLoading,
-        numberOfCard,
-        page,
-        totalPages,
+        ...context,
         updateData,
-        setPage,
-        setNumberOfCard,
-        setSearchValue,
-        searchValue,
       }}
     >
       {children}

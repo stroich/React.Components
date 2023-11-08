@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useContext, useEffect } from 'react';
+import { ChangeEvent, FC, useContext } from 'react';
 
 import styles from './search.module.css';
 import CardSelector from '../CardSelector/CardSelector.tsx';
@@ -11,19 +11,13 @@ interface SearchProps {
   setArrValue: () => void;
 }
 const Search: FC<SearchProps> = ({ setArrValue }) => {
-  const { setSearchValue, searchValue } = useContext(
+  const { updateData, searchValue } = useContext(
     DataContext
   ) as DataContextType;
 
-  useEffect(() => {
-    if (searchValue) {
-      setSearchValue(searchValue);
-    }
-  }, []);
-
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setSearchValue(searchValue);
+    const search = event.target.value;
+    updateData({ searchValue: search });
   };
 
   const clickButton = () => {

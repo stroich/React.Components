@@ -8,15 +8,17 @@ import {
 } from '../../app/Provider/DataProvider.tsx';
 
 const CardSelector = () => {
-  const { numberOfCard, setNumberOfCard, setPage } = useContext(
+  const { numberOfCard, updateData } = useContext(
     DataContext
   ) as DataContextType;
   const navigate = useNavigate();
   const handleCardPerPageChange = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    await setNumberOfCard(parseInt(event.target.value, 10));
-    await setPage(1);
+    updateData({
+      page: 1,
+      numberOfCard: parseInt(event.target.value, 10),
+    });
     await navigate('/');
   };
 
