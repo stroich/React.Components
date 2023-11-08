@@ -65,7 +65,7 @@ const contextValue = {
 const setNumberOfCard = jest.fn();
 const outletRef = React.createRef<HTMLImageElement>();
 describe('ListOfCard', () => {
-  test('ListOfCard component renders correctly', () => {
+  test('ListOfCard component displays the specified number of cards', () => {
     const { container } = render(
       <MemoryRouter>
         <DataContext.Provider value={contextValue}>
@@ -75,5 +75,21 @@ describe('ListOfCard', () => {
     );
     const optionElement = container.querySelectorAll('h3');
     expect(optionElement.length).toBe(8);
+  });
+
+  test('An appropriate message is displayed if no cards are present', () => {
+    const newContextValue = {
+      ...contextValue,
+      arrValue: [],
+    };
+    const { getByText } = render(
+      <MemoryRouter>
+        <DataContext.Provider value={newContextValue}>
+          <ListOfCard handleCardClick={setNumberOfCard} outletRef={outletRef} />
+        </DataContext.Provider>
+      </MemoryRouter>
+    );
+    const div = getByText('Nothing found');
+    expect(div).toBeInTheDocument();
   });
 });
