@@ -1,6 +1,7 @@
-import { fireEvent, render } from '@testing-library/react';
-
 import '@testing-library/jest-dom';
+import { fireEvent, render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+
 import CardSelector from '../components/CardSelector/CardSelector.tsx';
 import { DataContext } from '../app/Provider/DataProvider.tsx';
 
@@ -12,29 +13,39 @@ const contextValue = {
   numberOfCard: 8,
   searchValue: ' ',
   updateData: jest.fn(),
-  setPage: jest.fn(),
-  setNumberOfCard: jest.fn(),
-  setSearchValue: jest.fn(),
 };
 
 describe('CardSelector', () => {
   test('CardSelector component renders correctly', () => {
     const { container } = render(
-      <DataContext.Provider value={contextValue}>
-        <CardSelector />
-      </DataContext.Provider>
+      <MemoryRouter>
+        <DataContext.Provider value={contextValue}>
+          <CardSelector />
+        </DataContext.Provider>
+      </MemoryRouter>
     );
     const optionElement = container.querySelectorAll('select option');
     expect(optionElement.length).toBe(4);
   });
+
   test('CardSelector changes the value of the number of cards when the option is selected', () => {
+    const updateDataMock = jest.fn();
+    const newContextValue = {
+      ...contextValue,
+      updateData: updateDataMock,
+    };
     const { container } = render(
-      <DataContext.Provider value={contextValue}>
-        <CardSelector />
-      </DataContext.Provider>
+      <MemoryRouter>
+        <DataContext.Provider value={newContextValue}>
+          <CardSelector />
+        </DataContext.Provider>
+      </MemoryRouter>
     );
     const selectElement = container.querySelector('select') as HTMLElement;
-    fireEvent.change(selectElement, { target: { value: '4' } });
-    expect(contextValue.setNumberOfCard).toHaveBeenCalledWith(4);
+    fireEvent.change(selectElement, { target: { value: '12' } });
+    expect(updateDataMock).toHaveBeenCalledWith({
+      page: 1,
+      numberOfCard: 12,
+    });
   });
 });

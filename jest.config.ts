@@ -1,7 +1,11 @@
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'jsdom',
   moduleNameMapper: {
-    '\\.(css|less|scss)$': 'identity-obj-proxy',
+    '\\.(gif|ttf|eot|svg|png)$': '<rootDir>/src/__mocks__/fileMock.ts',
+    '.+\\.(css|less|sass|scss)$': 'identity-obj-proxy',
+  },
+  testEnvironment: 'jest-environment-jsdom',
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
   },
 };

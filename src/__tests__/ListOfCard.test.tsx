@@ -73,8 +73,8 @@ describe('ListOfCard', () => {
         </DataContext.Provider>
       </MemoryRouter>
     );
-    const optionElement = container.querySelectorAll('h3');
-    expect(optionElement.length).toBe(8);
+    const listOfCards = container.querySelector('.cards');
+    expect(listOfCards?.children.length).toBe(8);
   });
 
   test('An appropriate message is displayed if no cards are present', () => {
