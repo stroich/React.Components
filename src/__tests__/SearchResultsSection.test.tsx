@@ -2,11 +2,11 @@ import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import * as API from '../API/api.ts';
+import { contextValue } from '../__mocks__/mockProvider.ts';
 import { DataContext } from '../app/Provider/DataProvider.tsx';
 import SearchResultsSection from '../components/SearchResultsSection/SearchResultsSection.tsx';
 import Details from '../components/details/Details.tsx';
-import * as API from '../API/api.ts';
-import { contextValue } from '../__mocks__/mockProvider.ts';
 
 const mockedGetDetailsAboutTheCard = jest.spyOn(API, 'getDetailsAboutTheCard');
 

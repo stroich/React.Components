@@ -1,8 +1,8 @@
 import { render, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import Search from '../components/SearchSection/search.tsx';
 import { DataProvider } from '../app/Provider/DataProvider.tsx';
+import Search from '../components/SearchSection/search.tsx';
 
 test('clicking the Search button saves the entered value to the local storage', () => {
   localStorage.clear();

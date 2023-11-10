@@ -3,9 +3,9 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 
+import { contextValue } from '../__mocks__/mockProvider.ts';
 import { DataContext } from '../app/Provider/DataProvider.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
-import { contextValue } from '../__mocks__/mockProvider.ts';
 
 const setNumberOfCard = jest.fn();
 const outletRef = React.createRef<HTMLImageElement>();

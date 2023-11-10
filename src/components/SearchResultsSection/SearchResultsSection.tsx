@@ -2,11 +2,11 @@ import { useContext, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import styles from './SearchResultsSection.module.css';
-import ListOfCardWithPagination from '../ListOfCardWithPagination/ListOfCardWithPagination.tsx';
 import {
   DataContext,
   DataContextType,
 } from '../../app/Provider/DataProvider.tsx';
+import ListOfCardWithPagination from '../ListOfCardWithPagination/ListOfCardWithPagination.tsx';
 
 const SearchResultsSection = () => {
   const { arrValue } = useContext(DataContext) as DataContextType;

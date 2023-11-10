@@ -1,11 +1,11 @@
 import { ChangeEvent, FC, useContext } from 'react';
 
 import styles from './search.module.css';
-import CardSelector from '../CardSelector/CardSelector.tsx';
 import {
   DataContext,
   DataContextType,
 } from '../../app/Provider/DataProvider.tsx';
+import CardSelector from '../CardSelector/CardSelector.tsx';
 
 interface SearchProps {
   setArrValue: () => void;

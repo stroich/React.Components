@@ -1,13 +1,13 @@
 import React, { FC, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Pagination from '../Pagination/Pagination.tsx';
-import ListOfCard from '../listOfCard/listOfCard.tsx';
+import styles from './ListOfCardWithPagination.module.css';
 import {
   DataContext,
   DataContextType,
 } from '../../app/Provider/DataProvider.tsx';
-import styles from './ListOfCardWithPagination.module.css';
+import Pagination from '../Pagination/Pagination.tsx';
+import ListOfCard from '../listOfCard/listOfCard.tsx';
 
 interface ListOfCardWithPaginationProps {
   outletRef: React.RefObject<HTMLImageElement>;

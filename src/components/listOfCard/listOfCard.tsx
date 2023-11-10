@@ -1,8 +1,8 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { CardData } from '../../API/api.ts';
 import styles from './listOfCard.module.css';
+import { CardData } from '../../API/api.ts';
 import {
   DataContext,
   DataContextType,

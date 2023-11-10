@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-import styles from '../listOfCard/listOfCard.module.css';
 import { CardData } from '../../API/api.ts';
+import styles from '../listOfCard/listOfCard.module.css';
 
 interface CardProps {
   artwork: CardData;

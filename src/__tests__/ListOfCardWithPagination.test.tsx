@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import React from 'react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
+import { contextValue } from '../__mocks__/mockProvider.ts';
 import { DataContext } from '../app/Provider/DataProvider.tsx';
 import ListOfCardWithPagination from '../components/ListOfCardWithPagination/ListOfCardWithPagination.tsx';
-import { contextValue } from '../__mocks__/mockProvider.ts';
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),

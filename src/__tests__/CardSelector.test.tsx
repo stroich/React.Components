@@ -2,8 +2,8 @@ import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import CardSelector from '../components/CardSelector/CardSelector.tsx';
 import { DataContext } from '../app/Provider/DataProvider.tsx';
+import CardSelector from '../components/CardSelector/CardSelector.tsx';
 
 const contextValue = {
   arrValue: [],
