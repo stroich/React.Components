@@ -1,30 +1,23 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useContext } from 'react';
 
 import styles from './search.module.css';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
 import CardSelector from '../CardSelector/CardSelector.tsx';
 
 interface SearchProps {
-  cardsPerPage: number;
-  setCardsPerPage: (cardsPerPage: number) => void;
   setArrValue: () => void;
 }
-const Search: FC<SearchProps> = ({
-  setArrValue,
-  setCardsPerPage,
-  cardsPerPage,
-}) => {
-  const [searchValue, setSearchValue] = useState('');
-
-  useEffect(() => {
-    const searchValue = localStorage.getItem('searchValue');
-    if (searchValue) {
-      setSearchValue(searchValue);
-    }
-  }, []);
+const Search: FC<SearchProps> = ({ setArrValue }) => {
+  const { updateData, searchValue } = useContext(
+    DataContext
+  ) as DataContextType;
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setSearchValue(searchValue);
+    const search = event.target.value;
+    updateData({ searchValue: search });
   };
 
   const clickButton = () => {
@@ -49,10 +42,7 @@ const Search: FC<SearchProps> = ({
         <button className={styles.searchButton} onClick={clickButton}>
           Search
         </button>
-        <CardSelector
-          setCardsPerPage={setCardsPerPage}
-          cardsPerPage={cardsPerPage}
-        />
+        <CardSelector />
       </div>
     </header>
   );

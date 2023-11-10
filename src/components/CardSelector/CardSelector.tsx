@@ -1,25 +1,32 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './CardSelector.module.css';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
 
-interface CardSelectorProps {
-  cardsPerPage: number;
-  setCardsPerPage: (cardsPerPage: number) => void;
-}
-
-const CardSelector: FC<CardSelectorProps> = ({
-  setCardsPerPage,
-  cardsPerPage,
-}) => {
-  const handleCardPerPageChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setCardsPerPage(parseInt(event.target.value, 10));
+const CardSelector = () => {
+  const { numberOfCard, updateData } = useContext(
+    DataContext
+  ) as DataContextType;
+  const navigate = useNavigate();
+  const handleCardPerPageChange = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    updateData({
+      page: 1,
+      numberOfCard: parseInt(event.target.value, 10),
+    });
+    await navigate('/');
   };
 
   return (
     <div className={styles.wrapperSelector}>
       <select
         className={styles.select}
-        value={cardsPerPage}
+        value={numberOfCard}
         onChange={handleCardPerPageChange}
       >
         <option value={4}> 4</option>

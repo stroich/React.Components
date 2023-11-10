@@ -1,27 +1,21 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { CardData } from '../../API/api.ts';
 import styles from './listOfCard.module.css';
-import Pagination from '../Pagination/Pagination.tsx';
+import { CardData } from '../../API/api.ts';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
+import Card from '../Card/Card.tsx';
 
 interface ListOfCardProps {
-  artworks: Array<CardData>;
-  setPage: (page: number) => void;
   handleCardClick: (cardId: number) => void;
-  page: number;
-  totalPages: number;
   outletRef: React.RefObject<HTMLImageElement>;
 }
 
-const ListOfCard: FC<ListOfCardProps> = ({
-  artworks,
-  setPage,
-  handleCardClick,
-  page,
-  totalPages,
-  outletRef,
-}) => {
+const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick, outletRef }) => {
+  const { page, arrValue } = useContext(DataContext) as DataContextType;
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -59,33 +53,27 @@ const ListOfCard: FC<ListOfCardProps> = ({
   }, [isOpenCard]);
 
   return (
-    <div>
-      <div
-        ref={cardRef}
-        className={`${styles.cards} ${
-          isOpenCard ? styles.cardsOpenDetails : ''
-        }`}
-      >
-        {artworks.map((artwork: CardData) => (
-          <div
-            className={styles.card}
-            key={artwork.id}
-            onClick={() => {
-              handleCardClick(artwork.id);
-              setIsOpenCard(true);
-            }}
-          >
-            <img src={artwork.url} alt={artwork.title} />
-            <h3 className={styles.cardTitle}>{artwork.title}</h3>
-          </div>
-        ))}
-      </div>
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-      />
-    </div>
+    <>
+      {arrValue.length === 0 ? (
+        <div className={styles.message}>Nothing found</div>
+      ) : (
+        <div
+          ref={cardRef}
+          className={`${styles.cards} ${
+            isOpenCard ? styles.cardsOpenDetails : ''
+          }`}
+        >
+          {arrValue.map((artwork: CardData) => (
+            <Card
+              artwork={artwork}
+              key={artwork.id}
+              setIsOpenCard={setIsOpenCard}
+              handleCardClick={handleCardClick}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

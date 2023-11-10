@@ -39,8 +39,9 @@ module.exports = {
       { allowConstantExport: true },
     ],
     "import/order": ["error", {
+      "alphabetize": {"order": "asc"},
       "groups": [["builtin", "external"], "internal", ["parent", "sibling", "index"]],
-      "newlines-between": "always",
+      "newlines-between": "always"
     }]
   },
   settings: {

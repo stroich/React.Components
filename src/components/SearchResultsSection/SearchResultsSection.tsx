@@ -1,48 +1,25 @@
-import { FC, useRef } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useContext, useRef } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import styles from './SearchResultsSection.module.css';
-import ListOfCard from '../listOfCard/listOfCard.tsx';
-import { CardData } from '../../API/api.ts';
+import {
+  DataContext,
+  DataContextType,
+} from '../../app/Provider/DataProvider.tsx';
+import ListOfCardWithPagination from '../ListOfCardWithPagination/ListOfCardWithPagination.tsx';
 
-interface SearchResultsSectionProps {
-  page: number;
-  totalPages: number;
-  setPage: (n: number) => void;
-  arrValue: Array<CardData>;
-}
-
-const SearchResultsSection: FC<SearchResultsSectionProps> = ({
-  page,
-  setPage,
-  totalPages,
-  arrValue,
-}) => {
-  const navigate = useNavigate();
+const SearchResultsSection = () => {
+  const { arrValue } = useContext(DataContext) as DataContextType;
   const outletRef = useRef<HTMLImageElement>(null);
 
-  const handlePageChange = async (newPage: number) => {
-    setPage(newPage);
-    navigate(`/?page=${newPage}`);
-  };
-
-  const handleCardClick = (cardId: number) => {
-    navigate(`/details?page=${page}&details=${cardId}`);
-  };
-
   return (
-    <div className={styles.wrapper}>
-      <ListOfCard
-        artworks={arrValue}
-        setPage={handlePageChange}
-        page={page}
-        totalPages={totalPages}
-        handleCardClick={handleCardClick}
-        outletRef={outletRef}
-      />
-      <div className={styles.detailsWrapper} ref={outletRef}>
-        <Outlet />
-      </div>
+    <div className={styles.section}>
+      <ListOfCardWithPagination outletRef={outletRef} />
+      {arrValue.length > 0 ? (
+        <div className={styles.detailsWrapper} ref={outletRef}>
+          <Outlet />
+        </div>
+      ) : null}
     </div>
   );
 };

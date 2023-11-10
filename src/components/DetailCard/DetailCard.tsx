@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
-import styles from '../details/Details.module.css';
 import closeIcon from '../../../public/close-icon.svg';
+import styles from '../details/Details.module.css';
 
 interface DetailCardProps {
   details: {

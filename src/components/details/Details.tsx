@@ -1,10 +1,10 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './Details.module.css';
 import { getDetailsAboutTheCard } from '../../API/api.ts';
-import Loading from '../Loading/Loading.tsx';
 import DetailCard from '../DetailCard/DetailCard.tsx';
+import Loading from '../Loading/Loading.tsx';
 
 const Details = () => {
   const navigate = useNavigate();
