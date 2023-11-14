@@ -1,17 +1,16 @@
-import { FC, useContext } from 'react';
+import { FC } from 'react';
+import { useSelector } from 'react-redux';
 
 import styles from './Pagination.module.css';
 import { generatePageButtons } from './generatePageButtons.ts';
-import {
-  DataContext,
-  DataContextType,
-} from '../../app/Provider/DataProvider.tsx';
+import { RootState } from '../../app/store/store.ts';
 
 interface PaginationProps {
   onPageChange: (i: number) => void;
 }
 const Pagination: FC<PaginationProps> = ({ onPageChange }) => {
-  const { page, totalPages } = useContext(DataContext) as DataContextType;
+  const page = useSelector((state: RootState) => state.page.page);
+  const totalPages = useSelector((state: RootState) => state.page.totalPage);
   const pageButtons = generatePageButtons(page, totalPages);
 
   return (
