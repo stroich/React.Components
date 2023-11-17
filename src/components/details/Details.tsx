@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './Details.module.css';
-import { getDetailsAboutTheCard } from '../../API/api.ts';
+import { useGetArtworkDetailsQuery } from '../../app/store/api/artwork.api.ts';
 import DetailCard from '../DetailCard/DetailCard.tsx';
 import Loading from '../Loading/Loading.tsx';
 
@@ -10,27 +10,32 @@ const Details = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const page = searchParams.get('page');
-  const [isLoading, setIsLoading] = useState(true);
   const [details, setDetails] = useState({
     title: '',
     description: '',
     data: '',
     culture: '',
   });
+  const detailsSearchParams = searchParams.get('details') as string;
+  const { data, error, isFetching } = useGetArtworkDetailsQuery(
+    +detailsSearchParams
+  );
 
-  const updateData = async (cardId: string) => {
-    const newDetails = await getDetailsAboutTheCard(cardId);
-    setDetails(newDetails);
-  };
+  if (error) {
+    throw error;
+  }
 
   useEffect(() => {
-    const detailsSearchParams = searchParams.get('details');
-    if (detailsSearchParams) {
-      updateData(detailsSearchParams).then(() => {
-        setIsLoading(false);
-      });
+    if (data) {
+      const newDetails = {
+        title: data.data.title,
+        description: data.data.description,
+        data: data.data.date_start,
+        culture: data.data.artist_display,
+      };
+      setDetails(newDetails);
     }
-  }, [searchParams]);
+  }, [detailsSearchParams, data, isFetching]);
 
   const clickCloseButton = () => {
     navigate(`/?page=${page}`);
@@ -38,8 +43,8 @@ const Details = () => {
 
   return (
     <div className={styles.details}>
-      {isLoading ? (
-        <Loading />
+      {isFetching ? (
+        <Loading classname={'loading'} />
       ) : (
         <DetailCard clickCloseButton={clickCloseButton} details={details} />
       )}

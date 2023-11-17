@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './ListOfCardWithPagination.module.css';
+import { updateMainLoading } from '../../app/store/actions/mainLoadingSlice.ts';
 import { updatePage } from '../../app/store/actions/pageSlice.ts';
 import { RootState } from '../../app/store/store.ts';
 import Pagination from '../Pagination/Pagination.tsx';
@@ -23,6 +24,7 @@ const ListOfCardWithPagination: FC<ListOfCardWithPaginationProps> = ({
   const navigate = useNavigate();
 
   const handlePageChange = async (newPage: number) => {
+    dispatch(updateMainLoading(true));
     dispatch(updatePage(newPage));
     navigate(`/?page=${newPage}`);
   };

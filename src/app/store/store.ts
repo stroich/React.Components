@@ -6,8 +6,10 @@ import mainLoadingSlice from './actions/mainLoadingSlice.ts';
 import numberOfCardSlice from './actions/numberOfCardSlice.ts';
 import pageSlice from './actions/pageSlice.ts';
 import searchSlice from './actions/searchSlice.ts';
+import { api } from './api/artwork.api.ts';
 
 const rootReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   arrArtworks: arrArtworksSlice,
   search: searchSlice,
   mainLoading: mainLoadingSlice,
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

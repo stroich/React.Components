@@ -1,7 +1,11 @@
-import styles from './Loading.module.css';
+import { FC } from 'react';
 
-const Loading = () => {
-  return <div className={styles.loading}>loading...</div>;
+interface LoadingProps {
+  classname: string;
+}
+
+const Loading: FC<LoadingProps> = ({ classname }) => {
+  return <div className={classname}>loading...</div>;
 };
 
 export default Loading;

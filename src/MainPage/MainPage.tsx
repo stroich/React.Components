@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './MainPage.module.css';
-import { getArrArtWork } from '../API/api.ts';
 import { updateArtworks } from '../app/store/actions/arrArtworksSlice.ts';
 import { updateMainLoading } from '../app/store/actions/mainLoadingSlice.ts';
 import { updatePage, updateTotalPage } from '../app/store/actions/pageSlice.ts';
@@ -12,30 +11,36 @@ import { ErrorButton } from '../components/ErrorButton/ErrorButton.tsx';
 import Loading from '../components/Loading/Loading.tsx';
 import SearchResultsSection from '../components/SearchResultsSection/SearchResultsSection.tsx';
 import Search from '../components/SearchSection/search.tsx';
-
+import { useCustomArtworkQuery } from '../hooks/useCustomArtworkQuery.ts';
 const MainPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const page = useSelector((state: RootState) => state.page.page);
   const searchValue = useSelector((state: RootState) => state.search.search);
   const numberOfCard = useSelector(
     (state: RootState) => state.numberOfCard.numberOfCard
   );
-  const isLoading = useSelector(
-    (state: RootState) => state.mainLoading.isLoading
+
+  const { data, isFetching, error } = useCustomArtworkQuery(
+    searchValue,
+    page,
+    numberOfCard
   );
 
-  const navigate = useNavigate();
-
-  const updateCards = async (currentPage = page) => {
-    const result = await getArrArtWork(searchValue, currentPage, numberOfCard);
-    dispatch(updateArtworks(result.arrArtWork));
-    dispatch(updateTotalPage(result.totalPages));
-    dispatch(updateMainLoading(false));
-  };
-
   useEffect(() => {
-    updateCards();
-  }, [page, numberOfCard]);
+    if (isFetching) {
+      dispatch(updateMainLoading(true));
+    }
+    if (data) {
+      dispatch(updateArtworks(data.arrArtWork));
+      dispatch(updateTotalPage(data.totalPages));
+      dispatch(updateMainLoading(false));
+    }
+  }, [data]);
+
+  if (error) {
+    return <div className="errorMessage">Something went wrong</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -43,10 +48,15 @@ const MainPage = () => {
         setArrValue={async () => {
           dispatch(updatePage(1));
           navigate(`/`);
-          await updateCards();
         }}
       />
-      <main>{isLoading ? <Loading /> : <SearchResultsSection />}</main>
+      <main>
+        {isFetching ? (
+          <Loading classname={'loading'} />
+        ) : (
+          <SearchResultsSection />
+        )}
+      </main>
       <ErrorButton />
     </div>
   );
