@@ -1,11 +1,11 @@
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './ListOfCardWithPagination.module.css';
-import {
-  DataContext,
-  DataContextType,
-} from '../../app/Provider/DataProvider.tsx';
+import { updateMainLoading } from '../../app/store/actions/mainLoadingSlice.ts';
+import { updatePage } from '../../app/store/actions/pageSlice.ts';
+import { RootState } from '../../app/store/store.ts';
 import Pagination from '../Pagination/Pagination.tsx';
 import ListOfCard from '../listOfCard/listOfCard.tsx';
 
@@ -16,13 +16,16 @@ interface ListOfCardWithPaginationProps {
 const ListOfCardWithPagination: FC<ListOfCardWithPaginationProps> = ({
   outletRef,
 }) => {
-  const { page, arrValue, updateData } = useContext(
-    DataContext
-  ) as DataContextType;
+  const dispatch = useDispatch();
+  const page = useSelector((state: RootState) => state.page.page);
+  const arrValue = useSelector(
+    (state: RootState) => state.arrArtworks.arrArtworks
+  );
   const navigate = useNavigate();
 
   const handlePageChange = async (newPage: number) => {
-    updateData({ page: newPage });
+    dispatch(updateMainLoading(true));
+    dispatch(updatePage(newPage));
     navigate(`/?page=${newPage}`);
   };
 

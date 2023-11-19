@@ -1,12 +1,10 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './listOfCard.module.css';
-import { CardData } from '../../API/api.ts';
-import {
-  DataContext,
-  DataContextType,
-} from '../../app/Provider/DataProvider.tsx';
+import { RootState } from '../../app/store/store.ts';
+import { CardData } from '../../types/types.ts';
 import Card from '../Card/Card.tsx';
 
 interface ListOfCardProps {
@@ -15,7 +13,10 @@ interface ListOfCardProps {
 }
 
 const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick, outletRef }) => {
-  const { page, arrValue } = useContext(DataContext) as DataContextType;
+  const page = useSelector((state: RootState) => state.page.page);
+  const arrValue = useSelector(
+    (state: RootState) => state.arrArtworks.arrArtworks
+  );
   const [isOpenCard, setIsOpenCard] = useState(false);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();

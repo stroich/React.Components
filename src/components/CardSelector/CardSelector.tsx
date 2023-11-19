@@ -1,24 +1,24 @@
-import { ChangeEvent, useContext } from 'react';
+import { ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styles from './CardSelector.module.css';
-import {
-  DataContext,
-  DataContextType,
-} from '../../app/Provider/DataProvider.tsx';
+import { updateNumberOfCard } from '../../app/store/actions/numberOfCardSlice.ts';
+import { updatePage } from '../../app/store/actions/pageSlice.ts';
+import { RootState } from '../../app/store/store.ts';
 
 const CardSelector = () => {
-  const { numberOfCard, updateData } = useContext(
-    DataContext
-  ) as DataContextType;
+  const dispatch = useDispatch();
+  const numberOfCard = useSelector(
+    (state: RootState) => state.numberOfCard.numberOfCard
+  );
   const navigate = useNavigate();
   const handleCardPerPageChange = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    updateData({
-      page: 1,
-      numberOfCard: parseInt(event.target.value, 10),
-    });
+    const newNumberOfCards = parseInt(event.target.value, 10);
+    dispatch(updatePage(1));
+    dispatch(updateNumberOfCard(newNumberOfCards));
     await navigate('/');
   };
 

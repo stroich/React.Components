@@ -4,3 +4,9 @@
   text-shadow: var(--box-shadow);
   margin: 150px;
 }
+
+.loadingCard {
+  width: 100%;
+  color: black;
+  margin: 30px auto;
+}

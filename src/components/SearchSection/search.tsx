@@ -1,23 +1,21 @@
-import { ChangeEvent, FC, useContext } from 'react';
+import { ChangeEvent, FC } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './search.module.css';
-import {
-  DataContext,
-  DataContextType,
-} from '../../app/Provider/DataProvider.tsx';
+import { updateSearch } from '../../app/store/actions/searchSlice.ts';
+import { RootState } from '../../app/store/store.ts';
 import CardSelector from '../CardSelector/CardSelector.tsx';
 
 interface SearchProps {
   setArrValue: () => void;
 }
 const Search: FC<SearchProps> = ({ setArrValue }) => {
-  const { updateData, searchValue } = useContext(
-    DataContext
-  ) as DataContextType;
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state: RootState) => state.search.search);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const search = event.target.value;
-    updateData({ searchValue: search });
+    dispatch(updateSearch(search));
   };
 
   const clickButton = () => {

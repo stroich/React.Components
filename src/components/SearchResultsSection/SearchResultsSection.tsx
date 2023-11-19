@@ -1,15 +1,15 @@
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import styles from './SearchResultsSection.module.css';
-import {
-  DataContext,
-  DataContextType,
-} from '../../app/Provider/DataProvider.tsx';
+import { RootState } from '../../app/store/store.ts';
 import ListOfCardWithPagination from '../ListOfCardWithPagination/ListOfCardWithPagination.tsx';
 
 const SearchResultsSection = () => {
-  const { arrValue } = useContext(DataContext) as DataContextType;
+  const arrValue = useSelector(
+    (state: RootState) => state.arrArtworks.arrArtworks
+  );
   const outletRef = useRef<HTMLImageElement>(null);
 
   return (

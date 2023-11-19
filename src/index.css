@@ -32,3 +32,16 @@ body {
 header {
   margin: 0 10%;
 }
+
+.loading {
+  font-size: 25px;
+  color: white;
+  text-shadow: var(--box-shadow);
+  margin: 150px;
+}
+
+.loadingCard {
+  width: 100%;
+  color: black;
+  margin: 60px auto;
+}

@@ -1,51 +1,39 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, waitFor } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
 
-import { DataContext } from '../app/Provider/DataProvider.tsx';
+import { mockArtworkData } from '../__mocks__/mockData.ts';
+import { store } from '../app/store/store.ts';
 import CardSelector from '../components/CardSelector/CardSelector.tsx';
+import { renderWithRouterAndProvider } from '../utils/renderWithRouterAndProvider.tsx';
 
-const contextValue = {
-  arrValue: [],
-  isLoading: false,
-  totalPages: 10,
-  page: 1,
-  numberOfCard: 8,
-  searchValue: ' ',
-  updateData: jest.fn(),
-};
+const dispatchSpy = jest.spyOn(store, 'dispatch');
 
 describe('CardSelector', () => {
+  beforeEach(() => {
+    fetchMock.enableMocks();
+  });
+
+  afterAll(() => {
+    fetchMock.resetMocks();
+  });
   test('CardSelector component renders correctly', () => {
-    const { container } = render(
-      <MemoryRouter>
-        <DataContext.Provider value={contextValue}>
-          <CardSelector />
-        </DataContext.Provider>
-      </MemoryRouter>
-    );
+    const { container } = renderWithRouterAndProvider(<CardSelector />);
     const optionElement = container.querySelectorAll('select option');
     expect(optionElement.length).toBe(4);
   });
 
-  test('CardSelector changes the value of the number of cards when the option is selected', () => {
-    const updateDataMock = jest.fn();
-    const newContextValue = {
-      ...contextValue,
-      updateData: updateDataMock,
-    };
-    const { container } = render(
-      <MemoryRouter>
-        <DataContext.Provider value={newContextValue}>
-          <CardSelector />
-        </DataContext.Provider>
-      </MemoryRouter>
-    );
+  test('CardSelector changes the value of the number of cards when the option is selected', async () => {
+    fetchMock.mockResponseOnce(JSON.stringify(mockArtworkData));
+    const { container } = renderWithRouterAndProvider(<CardSelector />);
     const selectElement = container.querySelector('select') as HTMLElement;
-    fireEvent.change(selectElement, { target: { value: '12' } });
-    expect(updateDataMock).toHaveBeenCalledWith({
-      page: 1,
-      numberOfCard: 12,
+    fireEvent.change(selectElement, { target: { value: 12 } });
+    await waitFor(() => {
+      expect(dispatchSpy).toHaveBeenCalledTimes(2);
+      expect(dispatchSpy).toHaveBeenLastCalledWith({
+        type: 'numberOfCard/updateNumberOfCard',
+        payload: 12,
+      });
     });
   });
 });
