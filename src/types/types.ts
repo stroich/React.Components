@@ -4,11 +4,6 @@ export interface Artwork {
   url: string;
 }
 
-export interface ArtworkImage {
-  id: number;
-  title: string;
-  image_id: string;
-}
 export interface IResponseArtwork {
   pagination: { total_pages: number; total: number; limit: number };
   data: Array<Artwork>;
