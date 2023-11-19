@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { CardData } from '../../../types/types.ts';
 
-interface arrArtworksState {
+export interface arrArtworksState {
   arrArtworks: Array<CardData> | [];
 }
 

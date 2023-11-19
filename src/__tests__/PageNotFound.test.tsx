@@ -10,7 +10,7 @@ test('404 page is displayed when navigating to an invalid route', () => {
     <MemoryRouter initialEntries={['/non-existent-route']}>
       <Routes>
         <Route path="*" element={<PageNotFound />} />
-        <Route path={'/'} element={<Loading />} />
+        <Route path={'/'} element={<Loading classname={'classname'} />} />
       </Routes>
     </MemoryRouter>
   );

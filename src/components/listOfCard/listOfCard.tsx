@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './listOfCard.module.css';
-import { CardData } from '../../API/api.ts';
 import { RootState } from '../../app/store/store.ts';
+import { CardData } from '../../types/types.ts';
 import Card from '../Card/Card.tsx';
 
 interface ListOfCardProps {

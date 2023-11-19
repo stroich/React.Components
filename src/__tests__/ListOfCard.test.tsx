@@ -1,40 +1,49 @@
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { waitFor, screen, render } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
 import React from 'react';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
-import { contextValue } from '../__mocks__/mockProvider.ts';
-import { DataContext } from '../app/Provider/DataProvider.tsx';
+import {
+  initialState,
+  mockStoreWithoutFetch,
+} from '../__mocks__/mockStoreWithoutFetch.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
+import renderWithRouterAndProvider from '../utils/renderWithRouterAndProvider.tsx';
 
 const setNumberOfCard = jest.fn();
 const outletRef = React.createRef<HTMLImageElement>();
 describe('ListOfCard', () => {
-  test('ListOfCard component displays the specified number of cards', () => {
+  beforeEach(() => {
+    fetchMock.enableMocks();
+  });
+
+  afterAll(() => {
+    fetchMock.resetMocks();
+  });
+  test('ListOfCard component displays the specified number of cards', async () => {
     const { container } = render(
-      <MemoryRouter>
-        <DataContext.Provider value={contextValue}>
+      <MemoryRouter initialEntries={['/?page=1']}>
+        <Provider store={mockStoreWithoutFetch(initialState)}>
           <ListOfCard handleCardClick={setNumberOfCard} outletRef={outletRef} />
-        </DataContext.Provider>
+        </Provider>
       </MemoryRouter>
     );
+
     const listOfCards = container.querySelector('.cards');
     expect(listOfCards?.children.length).toBe(4);
   });
 
-  test('An appropriate message is displayed if no cards are present', () => {
-    const newContextValue = {
-      ...contextValue,
-      arrValue: [],
-    };
-    const { getByText } = render(
-      <MemoryRouter>
-        <DataContext.Provider value={newContextValue}>
-          <ListOfCard handleCardClick={setNumberOfCard} outletRef={outletRef} />
-        </DataContext.Provider>
-      </MemoryRouter>
-    );
-    const div = getByText('Nothing found');
-    expect(div).toBeInTheDocument();
+  test('An appropriate message is displayed if no cards are present', async () => {
+    await waitFor(() => {
+      renderWithRouterAndProvider(
+        <ListOfCard handleCardClick={setNumberOfCard} outletRef={outletRef} />
+      );
+    });
+    const div = screen.getByText('Nothing found');
+    await waitFor(() => {
+      expect(div).toBeInTheDocument();
+    });
   });
 });

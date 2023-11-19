@@ -1,16 +1,22 @@
 import { render, fireEvent } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 
-import { DataProvider } from '../app/Provider/DataProvider.tsx';
+import {
+  initialState,
+  mockStoreWithoutFetch,
+} from '../__mocks__/mockStoreWithoutFetch.tsx';
 import Search from '../components/SearchSection/search.tsx';
 
 test('clicking the Search button saves the entered value to the local storage', () => {
+  fetchMock.enableMocks();
   localStorage.clear();
   const { getByText, getByPlaceholderText } = render(
     <MemoryRouter>
-      <DataProvider>
+      <Provider store={mockStoreWithoutFetch(initialState)}>
         <Search setArrValue={jest.fn()} />
-      </DataProvider>
+      </Provider>
     </MemoryRouter>
   );
   const inputElement = getByPlaceholderText('Enter a search query');
@@ -20,4 +26,5 @@ test('clicking the Search button saves the entered value to the local storage', 
   fireEvent.click(searchButton);
 
   expect(localStorage.getItem('searchValue')).toBe('test');
+  fetchMock.resetMocks();
 });

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface numberOfCardState {
+export interface numberOfCardState {
   numberOfCard: number;
 }
 
@@ -9,7 +9,7 @@ const initialState: numberOfCardState = {
 };
 
 const numberOfCardSlice = createSlice({
-  name: 'search',
+  name: 'numberOfCard',
   initialState,
   reducers: {
     updateNumberOfCard: (state, action: PayloadAction<number>) => {

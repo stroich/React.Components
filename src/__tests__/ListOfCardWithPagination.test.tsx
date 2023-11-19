@@ -1,10 +1,14 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
 import React from 'react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 
-import { contextValue } from '../__mocks__/mockProvider.ts';
-import { DataContext } from '../app/Provider/DataProvider.tsx';
+import {
+  initialState,
+  mockStoreWithoutFetch,
+} from '../__mocks__/mockStoreWithoutFetch.tsx';
 import ListOfCardWithPagination from '../components/ListOfCardWithPagination/ListOfCardWithPagination.tsx';
 
 jest.mock('react-router-dom', () => ({
@@ -13,29 +17,27 @@ jest.mock('react-router-dom', () => ({
 }));
 
 describe('SearchResultsSection', () => {
-  afterAll(() => {
-    jest.restoreAllMocks();
+  beforeEach(() => {
+    fetchMock.enableMocks();
   });
 
-  test('Pagination is on the page', async () => {
+  afterAll(() => {
+    fetchMock.resetMocks();
+  });
+  test('Pagination is on the page', () => {
     const outletRef = React.createRef<HTMLImageElement>();
 
     const { getAllByRole } = render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <DataContext.Provider value={contextValue}>
-                <ListOfCardWithPagination outletRef={outletRef} />
-              </DataContext.Provider>
-            }
-          />
-        </Routes>
+      <MemoryRouter initialEntries={['/?page=1']}>
+        <Provider store={mockStoreWithoutFetch(initialState)}>
+          <ListOfCardWithPagination outletRef={outletRef} />
+        </Provider>
       </MemoryRouter>
     );
-    const buttonPagination = getAllByRole('button');
-    expect(buttonPagination.length).toBe(7);
+    act(() => {
+      const buttonPagination = getAllByRole('button');
+      expect(buttonPagination.length).toBe(7);
+    });
   });
 
   test('the component updates URL query parameter when page changes', async () => {
@@ -44,9 +46,9 @@ describe('SearchResultsSection', () => {
     require('react-router-dom').useNavigate.mockReturnValue(mockNavigate);
     const { getAllByRole } = render(
       <MemoryRouter initialEntries={['/?page=1']}>
-        <DataContext.Provider value={contextValue}>
+        <Provider store={mockStoreWithoutFetch(initialState)}>
           <ListOfCardWithPagination outletRef={outletRef} />
-        </DataContext.Provider>
+        </Provider>
       </MemoryRouter>
     );
     const buttonPagination = getAllByRole('button');

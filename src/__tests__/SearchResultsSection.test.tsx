@@ -1,78 +1,63 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
+import fetchMock from 'jest-fetch-mock';
+import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
-import * as API from '../API/api.ts';
-import { contextValue } from '../__mocks__/mockProvider.ts';
-import { DataContext } from '../app/Provider/DataProvider.tsx';
+import {
+  initialState,
+  mockStoreWithoutFetch,
+} from '../__mocks__/mockStoreWithoutFetch.tsx';
+import { store } from '../app/store/store.ts';
 import SearchResultsSection from '../components/SearchResultsSection/SearchResultsSection.tsx';
 import Details from '../components/details/Details.tsx';
 
-const mockedGetDetailsAboutTheCard = jest.spyOn(API, 'getDetailsAboutTheCard');
-
-const mockData = {
-  title: 'Winter: Cat on a Cushion',
-  description: null,
-  data: 1909,
-  culture: 'Théophile-Alexandre Steinlen\nFrench, born Switzerland, 1859-1923',
-};
-
 describe('SearchResultsSection', () => {
-  afterAll(() => {
-    mockedGetDetailsAboutTheCard.mockRestore();
+  beforeEach(() => {
+    fetchMock.enableMocks();
   });
 
-  test('clicking on a card opens a detailed card component', async () => {
-    mockedGetDetailsAboutTheCard.mockResolvedValue(mockData);
-
-    const { container, findByText } = render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <DataContext.Provider value={contextValue}>
-                <SearchResultsSection />
-              </DataContext.Provider>
-            }
-          >
+  afterAll(() => {
+    fetchMock.resetMocks();
+  });
+  test('there is no detail on the page', async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter initialEntries={['/']}>
+          <Routes>
             <Route
-              path="details"
+              path="/"
               element={
-                <DataContext.Provider value={contextValue}>
-                  <Details />
-                </DataContext.Provider>
+                <Provider store={mockStoreWithoutFetch(initialState)}>
+                  <SearchResultsSection />
+                </Provider>
               }
             />
-          </Route>
-        </Routes>
-      </MemoryRouter>
-    );
-    const card = container.querySelector('.card') as Element;
-    fireEvent.click(card);
-    const details = await findByText('Year: 1909');
-    expect(details).toBeInTheDocument();
+          </Routes>
+        </MemoryRouter>
+      );
+    });
+    const card = screen.getByText('Winter: Cat on a Cushion');
+    expect(card).toBeInTheDocument();
   });
-  test('clicking triggers an additional API call to fetch detailed information', async () => {
-    mockedGetDetailsAboutTheCard.mockResolvedValue(mockData);
-
+  test('there is no detail on the page at zero', async () => {
     const { container } = render(
       <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route
             path="/"
             element={
-              <DataContext.Provider value={contextValue}>
+              <Provider store={store}>
                 <SearchResultsSection />
-              </DataContext.Provider>
+              </Provider>
             }
           >
             <Route
               path="details"
               element={
-                <DataContext.Provider value={contextValue}>
+                <Provider store={store}>
                   <Details />
-                </DataContext.Provider>
+                </Provider>
               }
             />
           </Route>
@@ -80,7 +65,6 @@ describe('SearchResultsSection', () => {
       </MemoryRouter>
     );
     const card = container.querySelector('.card') as Element;
-    fireEvent.click(card);
-    expect(mockedGetDetailsAboutTheCard).toHaveBeenCalled();
+    expect(card).toBeNull();
   });
 });
