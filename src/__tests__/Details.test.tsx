@@ -6,11 +6,10 @@ import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { mockDetailsData } from '../__mocks__/mockData.ts';
+import { store } from '../app/store/store.ts';
 import SearchResultsSection from '../components/SearchResultsSection/SearchResultsSection.tsx';
 import Details from '../components/details/Details.tsx';
-import renderWithRouterAndProvider, {
-  mockStore,
-} from '../utils/renderWithRouterAndProvider.tsx';
+import { renderWithRouterAndProvider } from '../utils/renderWithRouterAndProvider.tsx';
 
 describe('Details', () => {
   beforeEach(() => {
@@ -38,7 +37,7 @@ describe('Details', () => {
             <Route
               path="details"
               element={
-                <Provider store={mockStore}>
+                <Provider store={store}>
                   <Details />
                 </Provider>
               }
@@ -46,7 +45,7 @@ describe('Details', () => {
             <Route
               path="/"
               element={
-                <Provider store={mockStore}>
+                <Provider store={store}>
                   <SearchResultsSection />
                 </Provider>
               }
@@ -70,7 +69,7 @@ describe('Details', () => {
           <Route
             path="details"
             element={
-              <Provider store={mockStore}>
+              <Provider store={store}>
                 <Details />
               </Provider>
             }
@@ -78,7 +77,7 @@ describe('Details', () => {
           <Route
             path="/"
             element={
-              <Provider store={mockStore}>
+              <Provider store={store}>
                 <SearchResultsSection />
               </Provider>
             }

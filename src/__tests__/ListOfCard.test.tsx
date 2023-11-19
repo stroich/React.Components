@@ -10,7 +10,7 @@ import {
   mockStoreWithoutFetch,
 } from '../__mocks__/mockStoreWithoutFetch.tsx';
 import ListOfCard from '../components/listOfCard/listOfCard.tsx';
-import renderWithRouterAndProvider from '../utils/renderWithRouterAndProvider.tsx';
+import { renderWithRouterAndProvider } from '../utils/renderWithRouterAndProvider.tsx';
 
 const setNumberOfCard = jest.fn();
 const outletRef = React.createRef<HTMLImageElement>();

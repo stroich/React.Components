@@ -3,12 +3,11 @@ import { fireEvent, waitFor } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 
 import { mockArtworkData } from '../__mocks__/mockData.ts';
+import { store } from '../app/store/store.ts';
 import CardSelector from '../components/CardSelector/CardSelector.tsx';
-import renderWithRouterAndProvider, {
-  mockStore,
-} from '../utils/renderWithRouterAndProvider.tsx';
+import { renderWithRouterAndProvider } from '../utils/renderWithRouterAndProvider.tsx';
 
-const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
+const dispatchSpy = jest.spyOn(store, 'dispatch');
 
 describe('CardSelector', () => {
   beforeEach(() => {

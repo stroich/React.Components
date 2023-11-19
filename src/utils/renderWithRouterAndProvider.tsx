@@ -6,14 +6,10 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { store } from '../app/store/store.ts';
 
-export const mockStore = store;
-
-export const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
-  return <Provider store={mockStore}>{children}</Provider>;
+const wrapper: FC<{ children: ReactNode }> = ({ children }) => {
+  return <Provider store={store}>{children}</Provider>;
 };
 
-function renderWithRouterAndProvider(children: ReactNode) {
-  return render(<MemoryRouter>{Wrapper({ children })}</MemoryRouter>);
+export function renderWithRouterAndProvider(children: ReactNode) {
+  return render(<MemoryRouter>{wrapper({ children })}</MemoryRouter>);
 }
-
-export default renderWithRouterAndProvider;
