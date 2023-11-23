@@ -1,0 +1,13 @@
+.main {
+  margin: 10% 5%;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1440px;
+}

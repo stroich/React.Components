@@ -1,0 +1,15 @@
+.wrapperSelector {
+  margin-left: 10%;
+  position: absolute;
+  right: 20%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: var(--box-shadow);
+}

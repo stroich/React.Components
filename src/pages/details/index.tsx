@@ -1,8 +1,9 @@
 import Head from 'next/head';
+import React from 'react';
 
 import MainPage from '@/components/MainPage/MainPage.tsx';
 
-export default function Home() {
+const DetailsPage = () => {
   return (
     <>
       <Head>
@@ -13,4 +14,6 @@ export default function Home() {
       <MainPage />
     </>
   );
-}
+};
+
+export default DetailsPage;
