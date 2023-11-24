@@ -7,7 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { store } from '../app/store/store.ts';
 
 const wrapper: FC<{ children: ReactNode }> = ({ children }) => {
-  return <Provider store={store}>{children}</Provider>;
+  return <Provider store={store()}>{children}</Provider>;
 };
 
 export function renderWithRouterAndProvider(children: ReactNode) {

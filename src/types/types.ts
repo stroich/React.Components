@@ -31,3 +31,10 @@ export interface CardData {
   title: string;
   url: string;
 }
+
+export interface DetailsCard {
+  title: string;
+  description: string;
+  data: string;
+  culture: string;
+}

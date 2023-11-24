@@ -7,6 +7,10 @@
 }
 
 .cardsOpenDetails {
+  display: grid;
+  gap: 20px;
+  justify-content: center;
+  align-items: start;
   grid-template-columns: repeat(2, 1fr);
 }
 
@@ -30,8 +34,6 @@
 }
 
 .card img {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
 }
 

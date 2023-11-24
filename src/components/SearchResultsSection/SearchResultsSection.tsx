@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '@/app/store/store.ts';
@@ -12,15 +11,14 @@ const SearchResultsSection = () => {
   const arrValue = useSelector(
     (state: RootState) => state.arrArtworks.arrArtworks
   );
-  const outletRef = useRef<HTMLImageElement>(null);
   const router = useRouter();
   const { query } = router;
 
   return (
     <div className={styles.section}>
-      <ListOfCardWithPagination outletRef={outletRef} />
+      <ListOfCardWithPagination />
       {arrValue.length > 0 ? (
-        <div className={styles.detailsWrapper} ref={outletRef}>
+        <div className={styles.detailsWrapper}>
           {query.details && <Details />}
         </div>
       ) : null}

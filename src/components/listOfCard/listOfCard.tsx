@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '@/app/store/store.ts';
@@ -10,49 +10,15 @@ import Card from '../Card/Card.tsx';
 
 interface ListOfCardProps {
   handleCardClick: (cardId: number) => void;
-  outletRef: React.RefObject<HTMLImageElement>;
 }
 
-const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick, outletRef }) => {
-  const page = useSelector((state: RootState) => state.page.page);
+const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick }) => {
+  const cardRef = useRef<HTMLImageElement>(null);
+  const router = useRouter();
+  const { query } = router;
   const arrValue = useSelector(
     (state: RootState) => state.arrArtworks.arrArtworks
   );
-  const [isOpenCard, setIsOpenCard] = useState(false);
-  const router = useRouter();
-  const { query } = router;
-  const cardRef = useRef<HTMLImageElement>(null);
-
-  const handleClickOutside = (event: Event) => {
-    const isTarget = event.target === event.currentTarget;
-    if (
-      !isTarget &&
-      outletRef.current &&
-      !outletRef.current.contains(event.target as Node) &&
-      cardRef.current &&
-      !cardRef.current.contains(event.target as Node)
-    ) {
-      router.push(`/?page=${page}`);
-    }
-  };
-
-  useEffect(() => {
-    const detailsSearchParams = query.details;
-    if (detailsSearchParams) {
-      setIsOpenCard(true);
-    } else {
-      setIsOpenCard(false);
-    }
-  }, [query]);
-
-  useEffect(() => {
-    if (isOpenCard) {
-      document.addEventListener('click', handleClickOutside);
-    }
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [isOpenCard]);
 
   return (
     <>
@@ -61,15 +27,12 @@ const ListOfCard: FC<ListOfCardProps> = ({ handleCardClick, outletRef }) => {
       ) : (
         <div
           ref={cardRef}
-          className={`${styles.cards} ${
-            isOpenCard ? styles.cardsOpenDetails : ''
-          }`}
+          className={query.details ? styles.cardsOpenDetails : styles.cards}
         >
           {arrValue.map((artwork: CardData) => (
             <Card
               artwork={artwork}
               key={artwork.id}
-              setIsOpenCard={setIsOpenCard}
               handleCardClick={handleCardClick}
             />
           ))}
