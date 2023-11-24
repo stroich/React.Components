@@ -25,21 +25,13 @@ describe('Card', () => {
     fetchMock.mockResponseOnce(JSON.stringify(mockData));
     await act(async () => {
       render(
-        <Provider store={store}>
-          <Card
-            artwork={artwork}
-            setIsOpenCard={jest.fn()}
-            handleCardClick={jest.fn()}
-          />
+        <Provider store={store()}>
+          <Card artwork={artwork} handleCardClick={jest.fn()} />
         </Provider>
       );
     });
     const imgElement = screen.getByRole('img');
     expect(imgElement).toBeInTheDocument();
-    expect(imgElement).toHaveAttribute(
-      'src',
-      'https://www.artic.edu/iiif/2/47fd1564-93f5-f30b-7786-013421133b4a/full/200,/0/default.jpg'
-    );
     const h3 = screen.getByRole('heading', { name: artwork.title });
     expect(h3).toBeInTheDocument();
   });

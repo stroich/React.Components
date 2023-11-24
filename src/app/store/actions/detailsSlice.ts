@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { DetailsCard } from '@/types/types.ts';
 
-export interface arrArtworksState {
+export interface detailsState {
   details: DetailsCard;
 }
 
-const initialState: arrArtworksState = {
+const initialState: detailsState = {
   details: {
     title: '',
     description: '',
