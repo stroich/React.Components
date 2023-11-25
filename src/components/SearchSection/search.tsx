@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, FC, useRef, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { updatePage } from '@/app/store/actions/pageSlice.ts';
 import { updateSearch } from '@/app/store/actions/searchSlice.ts';
 import { RootState } from '@/app/store/store.ts';
 import { buildQueryString } from '@/hooks/buildQueryString.ts';
@@ -9,10 +10,7 @@ import { buildQueryString } from '@/hooks/buildQueryString.ts';
 import styles from './search.module.css';
 import CardSelector from '../CardSelector/CardSelector.tsx';
 
-interface SearchProps {
-  setArrValue: () => void;
-}
-const Search: FC<SearchProps> = ({ setArrValue }) => {
+const Search = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const numberOfCard = useSelector(
@@ -23,18 +21,23 @@ const Search: FC<SearchProps> = ({ setArrValue }) => {
   const [search, setSearchValue] = useState(searchValue);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
+    const searchValue = event.target.value.trim();
     setSearchValue(searchValue);
   };
 
   const clickButton = async () => {
-    const searchValue = searchInputRef.current?.value;
+    const searchValue = searchInputRef.current?.value.trim();
     if (searchValue !== undefined) {
       dispatch(updateSearch(searchValue));
       localStorage.setItem('searchValue', searchValue);
-      setArrValue();
+      dispatch(updatePage(1));
+      console.log(searchValue);
       const url = buildQueryString(searchValue, 1, numberOfCard);
-      await router.push(url);
+      if (url === '/?') {
+        await router.push('/');
+      } else {
+        await router.push(url);
+      }
     }
   };
 

@@ -1,10 +1,7 @@
 import { Inter } from 'next/font/google';
-import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
 
-import { updatePage } from '@/app/store/actions/pageSlice.ts';
-import { Artwork, IResponseDetails } from '@/types/types.ts';
+import { Artwork } from '@/types/types.ts';
 
 import styles from './MainPage.module.css';
 import { ErrorButton } from '../ErrorButton/ErrorButton.tsx';
@@ -15,23 +12,14 @@ const inter = Inter({ subsets: ['latin'] });
 
 interface MainPageProps {
   arrArtworks: Array<Artwork>;
-  details?: IResponseDetails;
 }
 
-const MainPage: FC<MainPageProps> = ({ arrArtworks, details }) => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
+const MainPage: FC<MainPageProps> = ({ arrArtworks }) => {
   return (
     <div className={`${styles.container} ${inter.className}`}>
-      <Search
-        setArrValue={async () => {
-          dispatch(updatePage(1));
-          await router.push(`/`);
-        }}
-      />
+      <Search />
       <main className={styles.main}>
-        <SearchResultsSection arrArtworks={arrArtworks} details={details} />
+        <SearchResultsSection arrArtworks={arrArtworks} />
       </main>
       <ErrorButton />
     </div>

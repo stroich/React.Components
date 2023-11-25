@@ -4,7 +4,7 @@ export function buildQueryString(
   numberOfCard: number,
   isDetails = false
 ): string {
-  const defaultSearch = ' ';
+  const defaultSearch = '';
   const defaultPage = 1;
   const defaultNumberOfCard = 8;
 

@@ -40,8 +40,7 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react-refresh/only-export-components": [
-      "warn",
-      { "allowConstantExport": true }
+      "off"
     ],
     "import/order": [
       "error",

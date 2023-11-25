@@ -20,11 +20,9 @@ const SearchResultsSection: FC<SearchResultsSectionProps> = ({
   return (
     <div className={styles.section}>
       <ListOfCard arrArtworks={arrArtworks} />
-      {arrArtworks.length > 0 ? (
-        <div className={styles.detailsWrapper}>
-          {query.details && <Details />}
-        </div>
-      ) : null}
+      <div className={styles.detailsWrapper}>
+        {query.details && <Details />}
+      </div>
     </div>
   );
 };
