@@ -3,7 +3,6 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import { act } from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import { mockDetailsData } from '../__mocks__/mockData.ts';
 import { store } from '../app/store/store.ts';

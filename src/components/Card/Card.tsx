@@ -4,7 +4,7 @@ import { FC } from 'react';
 import question from '@/../public/question.jpg';
 import { CardData } from '@/types/types.ts';
 
-import styles from '../listOfCard/listOfCard.module.css';
+import styles from './Card.module.css';
 
 interface CardProps {
   artwork: CardData;

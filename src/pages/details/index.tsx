@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { updateArtworks } from '@/app/store/actions/arrArtworksSlice.ts';
 import { updateDetails } from '@/app/store/actions/detailsSlice.ts';
 import { updateTotalPage } from '@/app/store/actions/pageSlice.ts';
 import { getArtworkDetails, getArtworks } from '@/app/store/api/artwork.api.ts';
@@ -14,7 +13,7 @@ import { IResponseArtwork, IResponseDetails } from '@/types/types.ts';
 
 interface DetailsPageProps {
   artworks: IResponseArtwork;
-  details: IResponseDetails | null;
+  details: IResponseDetails;
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -48,7 +47,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {
         artworks: artworksRes.data,
-        details: detailsRes.data ? detailsRes.data : null,
+        details: detailsRes.data,
       },
     };
   }
@@ -64,17 +63,15 @@ const DetailsPage: FC<DetailsPageProps> = ({ artworks, details }) => {
   } else {
     processedData = processArtworkQueryData(artworks, 8);
   }
-  dispatch(updateArtworks(processedData.arrArtWork));
   dispatch(updateTotalPage(processedData.totalPages));
-  if (details) {
-    const newDetails = {
-      title: details.data.title,
-      description: details.data.description,
-      data: details.data.date_start,
-      culture: details.data.artist_display,
-    };
-    dispatch(updateDetails(newDetails));
-  }
+  const newDetails = {
+    title: details.data.title,
+    description: details.data.description,
+    data: details.data.date_start,
+    culture: details.data.artist_display,
+  };
+  dispatch(updateDetails(newDetails));
+
   return (
     <>
       <Head>
@@ -82,7 +79,7 @@ const DetailsPage: FC<DetailsPageProps> = ({ artworks, details }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/museum.svg" />
       </Head>
-      <MainPage />
+      <MainPage arrArtworks={processedData.arrArtWork} />
     </>
   );
 };

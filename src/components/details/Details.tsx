@@ -9,7 +9,6 @@ import DetailCard from '../DetailCard/DetailCard.tsx';
 
 const Details = () => {
   const router = useRouter();
-  const details = useSelector((state: RootState) => state.details.details);
   const numberOfCard = useSelector(
     (state: RootState) => state.numberOfCard.numberOfCard
   );
@@ -27,7 +26,7 @@ const Details = () => {
 
   return (
     <div className={styles.details}>
-      <DetailCard clickCloseButton={clickCloseButton} details={details} />
+      <DetailCard clickCloseButton={clickCloseButton} />
     </div>
   );
 };

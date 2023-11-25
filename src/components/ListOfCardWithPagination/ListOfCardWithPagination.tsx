@@ -1,26 +1,30 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { FC, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { updatePage } from '@/app/store/actions/pageSlice.ts';
 import { RootState } from '@/app/store/store.ts';
+import Card from '@/components/Card/Card.tsx';
 import { buildQueryString } from '@/hooks/buildQueryString.ts';
+import { Artwork, CardData } from '@/types/types.ts';
 
 import styles from './ListOfCardWithPagination.module.css';
 import Pagination from '../Pagination/Pagination.tsx';
-import ListOfCard from '../listOfCard/listOfCard.tsx';
 
-const ListOfCardWithPagination = () => {
+interface ListOfCardProps {
+  arrArtworks: Array<Artwork>;
+}
+
+const ListOfCard: FC<ListOfCardProps> = ({ arrArtworks }) => {
   const dispatch = useDispatch();
+  const cardRef = useRef<HTMLImageElement>(null);
+  const router = useRouter();
+  const { query } = router;
   const numberOfCard = useSelector(
     (state: RootState) => state.numberOfCard.numberOfCard
   );
   const search = useSelector((state: RootState) => state.search.search);
   const page = useSelector((state: RootState) => state.page.page);
-  const arrValue = useSelector(
-    (state: RootState) => state.arrArtworks.arrArtworks
-  );
-  const router = useRouter();
 
   const handlePageChange = async (newPage: number) => {
     dispatch(updatePage(newPage));
@@ -35,12 +39,27 @@ const ListOfCardWithPagination = () => {
 
   return (
     <div className={styles.wrapper}>
-      <ListOfCard handleCardClick={handleCardClick} />
-      {arrValue.length > 0 ? (
+      {arrArtworks.length === 0 ? (
+        <div className={styles.message}>Nothing found</div>
+      ) : (
+        <div
+          ref={cardRef}
+          className={query.details ? styles.cardsOpenDetails : styles.cards}
+        >
+          {arrArtworks.map((artwork: CardData) => (
+            <Card
+              artwork={artwork}
+              key={artwork.id}
+              handleCardClick={handleCardClick}
+            />
+          ))}
+        </div>
+      )}
+      {arrArtworks.length > 0 ? (
         <Pagination onPageChange={handlePageChange} />
       ) : null}
     </div>
   );
 };
 
-export default ListOfCardWithPagination;
+export default ListOfCard;

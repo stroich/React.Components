@@ -1,20 +1,18 @@
 import Image from 'next/image';
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+
+import { RootState } from '@/app/store/store.ts';
 
 import closeIcon from '../../../public/close-icon.svg';
 import styles from '../details/Details.module.css';
 
 interface DetailCardProps {
-  details: {
-    title: string;
-    description: string;
-    data: string;
-    culture: string;
-  };
   clickCloseButton: () => void;
 }
 
-const DetailCard: FC<DetailCardProps> = ({ clickCloseButton, details }) => {
+const DetailCard: FC<DetailCardProps> = ({ clickCloseButton }) => {
+  const details = useSelector((state: RootState) => state.details.details);
   return (
     <div>
       <Image

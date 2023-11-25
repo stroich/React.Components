@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { updateArtworks } from '@/app/store/actions/arrArtworksSlice.ts';
 import { updateNumberOfCard } from '@/app/store/actions/numberOfCardSlice.ts';
 import { updatePage, updateTotalPage } from '@/app/store/actions/pageSlice.ts';
 import { updateSearch } from '@/app/store/actions/searchSlice.ts';
@@ -61,7 +60,6 @@ const Home: FC<HomePageProps> = ({ data }) => {
   } else {
     processedData = processArtworkQueryData(data, 8);
   }
-  dispatch(updateArtworks(processedData.arrArtWork));
   dispatch(updateTotalPage(processedData.totalPages));
 
   return (
@@ -71,7 +69,7 @@ const Home: FC<HomePageProps> = ({ data }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/museum.svg" />
       </Head>
-      <MainPage />
+      <MainPage arrArtworks={processedData.arrArtWork} />
     </>
   );
 };
