@@ -50,7 +50,7 @@ export const initialState: RootState = {
   arrArtworks: {
     arrArtworks: arr,
   },
-  search: { search: '' },
+  search: { search: ' ' },
   page: {
     totalPage: 10,
     page: 1,

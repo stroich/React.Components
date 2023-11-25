@@ -1,20 +1,19 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, act, render } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
+import mockRouter from 'next-router-mock';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
 
+import { arr } from '@/__mocks__/mockData.ts';
 import {
   initialState,
   mockStoreWithoutFetch,
-} from '../__mocks__/mockStoreWithoutFetch.tsx';
+} from '@/__mocks__/mockStoreWithoutFetch.tsx';
+
 import ListOfCardWithPagination from '../components/ListOfCardWithPagination/ListOfCardWithPagination.tsx';
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: jest.fn(),
-}));
+jest.mock('next/router', () => require('next-router-mock'));
 
 describe('SearchResultsSection', () => {
   beforeEach(() => {
@@ -25,14 +24,10 @@ describe('SearchResultsSection', () => {
     fetchMock.resetMocks();
   });
   test('Pagination is on the page', () => {
-    const outletRef = React.createRef<HTMLImageElement>();
-
     const { getAllByRole } = render(
-      <MemoryRouter initialEntries={['/?page=1']}>
-        <Provider store={mockStoreWithoutFetch(initialState)}>
-          <ListOfCardWithPagination outletRef={outletRef} />
-        </Provider>
-      </MemoryRouter>
+      <Provider store={mockStoreWithoutFetch(initialState)}>
+        <ListOfCardWithPagination arrArtworks={arr} />
+      </Provider>
     );
     act(() => {
       const buttonPagination = getAllByRole('button');
@@ -41,18 +36,14 @@ describe('SearchResultsSection', () => {
   });
 
   test('the component updates URL query parameter when page changes', async () => {
-    const outletRef = React.createRef<HTMLImageElement>();
-    const mockNavigate = jest.fn();
-    require('react-router-dom').useNavigate.mockReturnValue(mockNavigate);
+    await mockRouter.push('/');
     const { getAllByRole } = render(
-      <MemoryRouter initialEntries={['/?page=1']}>
-        <Provider store={mockStoreWithoutFetch(initialState)}>
-          <ListOfCardWithPagination outletRef={outletRef} />
-        </Provider>
-      </MemoryRouter>
+      <Provider store={mockStoreWithoutFetch(initialState)}>
+        <ListOfCardWithPagination arrArtworks={arr} />
+      </Provider>
     );
     const buttonPagination = getAllByRole('button');
     fireEvent.click(buttonPagination[2]);
-    expect(mockNavigate).toHaveBeenCalledWith('/?page=2');
+    expect(mockRouter.asPath).toEqual('/?page=2');
   });
 });
