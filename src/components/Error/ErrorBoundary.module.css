@@ -1,0 +1,6 @@
+.errorMessage {
+  font-size: 25px;
+  color: white;
+  text-shadow: var(--box-shadow);
+  text-align: center;
+}

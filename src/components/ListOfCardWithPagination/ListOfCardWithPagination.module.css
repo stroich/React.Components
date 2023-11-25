@@ -1,0 +1,19 @@
+.wrapper {
+  width: 100%;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  justify-content: center;
+  align-items: start;
+}
+
+.cardsOpenDetails {
+  grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  gap: 20px;
+  justify-content: center;
+  align-items: start;
+}
