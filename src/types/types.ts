@@ -5,13 +5,13 @@ export interface IHookForms {
   password: string;
   confirmPassword: string;
   gender: string;
-  acceptTerms: boolean;
-  picture: File;
+  acceptTerms?: boolean | undefined;
+  picture?: FileList | undefined;
   country: string;
 }
 
 export interface IUpdatedValues {
-  picture: string | null;
+  picture: string;
   name: string;
   age: number;
   email: string;

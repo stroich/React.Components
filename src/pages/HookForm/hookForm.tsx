@@ -1,21 +1,36 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './HookForm.module.css';
 import { schema } from '../../components/schema/schema.ts';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCountries } from '../../store/actions/countriesSlice.ts';
+import { addForm } from '../../store/actions/formsSlice.ts';
+import { IHookForms, IUpdatedValues } from '../../types/types.ts';
+import { useNavigate } from 'react-router-dom';
 
 const HookForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<IHookForms>({
+    mode: 'onBlur',
     resolver: yupResolver(schema),
   });
+  const dispatch = useDispatch();
   const countries = useSelector(selectCountries);
-  const onSubmit = () => {
-    console.log(1);
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<IHookForms> = (data) => {
+    if (data.picture) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const updatedValues = { ...data, picture: reader.result };
+        dispatch(addForm(updatedValues as IUpdatedValues));
+      };
+      reader.readAsDataURL(data.picture[0]);
+      navigate(`/`);
+    }
   };
   return (
     <div className={styles.pageWrapper}>

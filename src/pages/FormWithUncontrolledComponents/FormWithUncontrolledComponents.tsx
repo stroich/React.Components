@@ -45,7 +45,7 @@ const FormWithUncontrolledComponents = () => {
         : femaleRadioRef.current?.checked
           ? 'female'
           : '',
-      picture: imageRef.current?.files?.[0],
+      picture: imageRef.current?.files || undefined,
       country: countryRef.current?.value || '',
     };
 
@@ -55,12 +55,11 @@ const FormWithUncontrolledComponents = () => {
         if (values.picture) {
           const reader = new FileReader();
           reader.onloadend = () => {
-            const updatedValues = { picture: reader.result, ...values };
+            const updatedValues = { ...values, picture: reader.result };
             dispatch(addForm(updatedValues as IUpdatedValues));
           };
-          reader.readAsDataURL(values.picture);
+          reader.readAsDataURL(values.picture[0]);
         }
-
         navigate(`/`);
       })
       .catch((validationErrors) => {
