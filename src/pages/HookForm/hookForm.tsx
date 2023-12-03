@@ -2,11 +2,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import styles from './HookForm.module.css';
 import { schema } from '../../components/schema/schema.ts';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectCountries } from '../../store/actions/countriesSlice.ts';
+import { useDispatch } from 'react-redux';
 import { addForm } from '../../store/actions/formsSlice.ts';
 import { IHookForms, IUpdatedValues } from '../../types/types.ts';
 import { useNavigate } from 'react-router-dom';
+import CountryInput from '../../components/CountryInput/CountryInput.tsx';
 
 const HookForm = () => {
   const {
@@ -18,7 +18,6 @@ const HookForm = () => {
     resolver: yupResolver(schema),
   });
   const dispatch = useDispatch();
-  const countries = useSelector(selectCountries);
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<IHookForms> = (data) => {
@@ -119,18 +118,11 @@ const HookForm = () => {
           )}
         </div>
 
-        <div className={styles.inputWrapper}>
-          <label htmlFor="country">Country:</label>
-          <input list="countries" {...register('country')} />
-          <datalist id="countries">
-            {countries.map((country, index) => (
-              <option key={index} value={country} />
-            ))}
-          </datalist>
-          {errors.country && (
-            <p className={styles.errorMessage}>{errors.country.message}</p>
-          )}
-        </div>
+        <CountryInput
+          register={register}
+          errorMessage={errors.country?.message}
+        />
+
         <div className={styles.buttonWrapper}>
           <button className={styles.submit} type="submit" disabled={!isValid}>
             Submit

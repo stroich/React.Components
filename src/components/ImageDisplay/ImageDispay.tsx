@@ -12,8 +12,8 @@ export const ImageDisplay: FC<ImageDisplayProps> = ({ image }) => {
           src={image}
           alt="Preview"
           style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
+            maxWidth: '500px',
+            maxHeight: 'auto',
             border: '1px solid #ddd',
             borderRadius: '4px',
             padding: '5px',

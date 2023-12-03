@@ -11,7 +11,7 @@ const FormDataDisplay: React.FC = () => {
   return (
     <div className={styles.wrapperList}>
       <h2 className={styles.title}>List of Submitted Forms</h2>
-      <div>
+      <div className={styles.listOfForm}>
         {forms.map((form, index) => (
           <div key={index}>
             <h3>Form {index + 1}</h3>

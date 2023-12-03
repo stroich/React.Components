@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import styles from '../HookForm/HookForm.module.css';
 import { schema } from '../../components/schema/schema.ts';
 import { IHookForms, IUpdatedValues } from '../../types/types.ts';
@@ -24,10 +24,15 @@ const FormWithUncontrolledComponents = () => {
   const dispatch = useDispatch();
   const countries = useSelector(selectCountries);
   const navigate = useNavigate();
+  const [filteredCountries, setFilteredCountries] =
+    useState<string[]>(countries);
 
-  const handleImageChange = () => {
-    const imageFile = imageRef.current?.files?.[0];
-    console.log('Выбрано изображение:', imageFile);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value.toLowerCase();
+    const filtered = countries.filter((country) =>
+      country.toLowerCase().includes(inputValue)
+    );
+    setFilteredCountries(filtered);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -141,12 +146,7 @@ const FormWithUncontrolledComponents = () => {
 
         <div className={styles.inputWrapper}>
           <label htmlFor="picture">Upload Picture:</label>
-          <input
-            type="file"
-            id="picture"
-            ref={imageRef}
-            onChange={handleImageChange}
-          />
+          <input type="file" id="picture" ref={imageRef} />
           {errors.picture && (
             <p className={styles.errorMessage}>{errors.picture}</p>
           )}
@@ -154,9 +154,14 @@ const FormWithUncontrolledComponents = () => {
 
         <div className={styles.inputWrapper}>
           <label htmlFor="country">Country:</label>
-          <input list="countries" id="country" ref={countryRef} />
+          <input
+            type="text"
+            list="countries"
+            ref={countryRef}
+            onChange={handleInputChange}
+          />
           <datalist id="countries">
-            {countries.map((country, index) => (
+            {filteredCountries.map((country, index) => (
               <option key={index} value={country} />
             ))}
           </datalist>
@@ -164,6 +169,7 @@ const FormWithUncontrolledComponents = () => {
             <p className={styles.errorMessage}>{errors.country}</p>
           )}
         </div>
+
         <div className={styles.buttonWrapper}>
           <button className={styles.submit} type="submit">
             Submit
