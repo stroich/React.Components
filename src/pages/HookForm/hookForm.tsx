@@ -12,7 +12,7 @@ const HookForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<IHookForms>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
@@ -32,6 +32,7 @@ const HookForm = () => {
       navigate(`/`);
     }
   };
+
   return (
     <div className={styles.pageWrapper}>
       <h1>The form, but created with the help of the React Hook Form</h1>
@@ -131,7 +132,7 @@ const HookForm = () => {
           )}
         </div>
         <div className={styles.buttonWrapper}>
-          <button className={styles.submit} type="submit">
+          <button className={styles.submit} type="submit" disabled={!isValid}>
             Submit
           </button>
         </div>

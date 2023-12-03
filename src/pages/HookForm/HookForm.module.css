@@ -60,3 +60,9 @@
     background: #b2b1b1;
     border: 1px solid #b2b1b1;
 }
+
+.submit:disabled{
+    border-color: rgba(118, 118, 118, 0.3);
+    background: none;
+    cursor: default;
+}
