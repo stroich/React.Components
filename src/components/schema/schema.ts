@@ -13,13 +13,7 @@ export const schema = yup.object().shape({
     .string()
     .required('Email is required')
     .email('Invalid email address'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/,
-      'Password must contain at least 8 characters, including 1 number, 1 uppercase letter, 1 lowercase letter, and 1 special character'
-    ),
+  password: yup.string().required('Enter your password'),
   confirmPassword: yup
     .string()
     .required('Confirm Password is required')

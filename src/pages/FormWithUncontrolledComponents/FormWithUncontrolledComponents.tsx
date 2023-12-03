@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import styles from '../HookForm/HookForm.module.css';
 import { schema } from '../../components/schema/schema.ts';
 import { IHookForms, IUpdatedValues } from '../../types/types.ts';
@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectCountries } from '../../store/actions/countriesSlice.ts';
 import { addForm } from '../../store/actions/formsSlice.ts';
 import { useNavigate } from 'react-router-dom';
+import { getPasswordStrength } from '../../helpers/getPasswordStrength.ts';
+import Star from '../../components/Star/Star.tsx';
 
 const FormWithUncontrolledComponents = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -26,13 +28,25 @@ const FormWithUncontrolledComponents = () => {
   const navigate = useNavigate();
   const [filteredCountries, setFilteredCountries] =
     useState<string[]>(countries);
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [confirmPasswordStrength, setConfirmPasswordStrength] = useState(0);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value.toLowerCase();
     const filtered = countries.filter((country) =>
       country.toLowerCase().includes(inputValue)
     );
     setFilteredCountries(filtered);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const strength = getPasswordStrength(value);
+    if (e.target.id === 'password') {
+      setPasswordStrength(strength);
+    } else {
+      setConfirmPasswordStrength(strength);
+    }
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -101,10 +115,16 @@ const FormWithUncontrolledComponents = () => {
 
         <div className={styles.inputWrapper}>
           <label htmlFor="password">Password:</label>
-          <input type="password" ref={passwordRef} id="password" />
+          <input
+            type="password"
+            ref={passwordRef}
+            id="password"
+            onChange={handlePasswordChange}
+          />
           {errors.password && (
             <p className={styles.errorMessage}>{errors.password}</p>
           )}
+          <Star passwordStrength={passwordStrength} />
         </div>
 
         <div className={styles.inputWrapper}>
@@ -113,10 +133,12 @@ const FormWithUncontrolledComponents = () => {
             type="password"
             ref={confirmPasswordRef}
             id="confirmPassword"
+            onChange={handlePasswordChange}
           />
           {errors.confirmPassword && (
             <p className={styles.errorMessage}>{errors.confirmPassword}</p>
           )}
+          <Star passwordStrength={confirmPasswordStrength} />
         </div>
 
         <div className={styles.inputWrapper}>

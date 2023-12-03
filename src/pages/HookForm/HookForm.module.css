@@ -66,3 +66,18 @@
     background: none;
     cursor: default;
 }
+
+.starWrapper{
+    margin: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 23px;
+}
+
+.starWrapper span{
+    display: block;
+    font-size: 20px;
+    position: relative;
+    top: 25%;
+}

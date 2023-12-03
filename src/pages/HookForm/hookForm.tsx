@@ -7,6 +7,9 @@ import { addForm } from '../../store/actions/formsSlice.ts';
 import { IHookForms, IUpdatedValues } from '../../types/types.ts';
 import { useNavigate } from 'react-router-dom';
 import CountryInput from '../../components/CountryInput/CountryInput.tsx';
+import Star from '../../components/Star/Star.tsx';
+import { ChangeEvent, useState } from 'react';
+import { getPasswordStrength } from '../../helpers/getPasswordStrength.ts';
 
 const HookForm = () => {
   const {
@@ -19,6 +22,18 @@ const HookForm = () => {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [confirmPasswordStrength, setConfirmPasswordStrength] = useState(0);
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const strength = getPasswordStrength(value);
+    if (e.target.id === 'password') {
+      setPasswordStrength(strength);
+    } else {
+      setConfirmPasswordStrength(strength);
+    }
+  };
 
   const onSubmit: SubmitHandler<IHookForms> = (data) => {
     if (data.picture) {
@@ -61,20 +76,32 @@ const HookForm = () => {
 
         <div className={styles.inputWrapper}>
           <label htmlFor="password">Password:</label>
-          <input type="password" {...register('password')} />
+          <input
+            type="password"
+            id="password"
+            {...register('password')}
+            onChange={handlePasswordChange}
+          />
           {errors.password && (
             <p className={styles.errorMessage}>{errors.password.message}</p>
           )}
+          <Star passwordStrength={passwordStrength} />
         </div>
 
         <div className={styles.inputWrapper}>
           <label htmlFor="confirmPassword">Confirm Password:</label>
-          <input type="password" {...register('confirmPassword')} />
+          <input
+            type="password"
+            {...register('confirmPassword')}
+            id="confirmPassword"
+            onChange={handlePasswordChange}
+          />
           {errors.confirmPassword && (
             <p className={styles.errorMessage}>
               {errors.confirmPassword.message}
             </p>
           )}
+          <Star passwordStrength={confirmPasswordStrength} />
         </div>
 
         <div className={styles.inputWrapper}>
