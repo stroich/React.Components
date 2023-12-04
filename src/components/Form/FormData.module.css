@@ -1,0 +1,13 @@
+.listOfForm{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.wrapperList{
+    margin: 50px 30px;
+}
+
+.title{
+    text-align: center;
+    margin: 50px 0;
+}
